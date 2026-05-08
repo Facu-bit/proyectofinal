@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0a0a0f">
+<title>Bar Club San José</title>
+</head>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--K:#0a0a0f;--B:#2e6bc4;--BL:#4a8ee8;--Y:#f5c518;--G:#1a1a24;--G2:#2a2a38;--T:#e0e0d8;--GR:#27b865;--RD:#e24b4a}
+html,body{background:var(--K);color:var(--T);font-family:'Barlow',sans-serif;font-size:16px}
+.ck{background-color:var(--B);background-image:linear-gradient(rgba(255,255,255,.22) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.22) 1px,transparent 1px);background-size:20px 20px}
+.nav{background:rgba(10,10,15,.97);border-bottom:2px solid var(--B);display:flex;align-items:center;padding:0 16px;height:54px;gap:12px;position:sticky;top:0;z-index:200}
+.nbrand{display:flex;align-items:center;gap:9px;flex-shrink:0}
+.nlogo{width:36px;height:36px;border-radius:50%;border:2px solid var(--B);overflow:hidden;flex-shrink:0}
+.ntxt{font-family:'Bebas Neue',sans-serif;font-size:20px;color:#fff;letter-spacing:.07em;line-height:1}
+.ntxt b{color:var(--Y);font-weight:400}
+.nlinks{display:flex;gap:2px;margin-left:8px;overflow-x:auto}
+.na{color:#999;font-size:13px;font-weight:600;padding:5px 11px;border-radius:4px;cursor:pointer;white-space:nowrap;font-family:'Barlow',sans-serif;background:none;border:none;letter-spacing:.01em}
+.na:hover,.na.on{color:#fff;background:rgba(46,107,196,.28)}
+.nright{margin-left:auto;flex-shrink:0;display:flex;align-items:center;gap:8px}
+.ncart{display:flex;align-items:center;gap:6px;background:var(--B);color:#fff;border:none;border-radius:5px;padding:6px 13px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Bebas Neue',sans-serif;letter-spacing:.05em;white-space:nowrap}
+.nbn{background:var(--Y);color:#000;border-radius:99px;font-size:11px;font-weight:700;padding:1px 6px;min-width:17px;text-align:center}
+.tabs{background:var(--G);border-bottom:1px solid rgba(255,255,255,.06);display:flex;overflow-x:auto;padding:0 16px}
+.tb{padding:10px 15px;font-size:13px;font-weight:600;color:#666;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;background:none;border-left:none;border-right:none;border-top:none;letter-spacing:.02em;font-family:'Barlow',sans-serif}
+.tb:hover{color:#ccc}
+.tb.on{color:#fff;border-bottom-color:var(--Y)}
+.pg{display:none;padding:16px}
+.pg.on{display:block}
+.ttl{font-family:'Bebas Neue',sans-serif;font-size:24px;color:#fff;letter-spacing:.06em;margin-bottom:14px;line-height:1}
+.ttl b{color:var(--Y);font-weight:400}
+.hero{position:relative;min-height:260px;display:flex;align-items:center;padding:36px 16px;overflow:hidden}
+.hbg{position:absolute;inset:0;background:var(--K)}
+.hq{position:absolute;right:0;top:0;bottom:0;width:42%;opacity:.22}
+.hfade{position:absolute;right:0;top:0;bottom:0;width:52%;background:linear-gradient(90deg,var(--K) 0%,transparent 45%)}
+.hc{position:relative;z-index:1;max-width:100%}
+.heye{display:inline-flex;align-items:center;gap:6px;background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.28);border-radius:4px;padding:3px 10px;font-size:11px;font-weight:700;color:var(--Y);letter-spacing:.07em;margin-bottom:12px;font-family:'Barlow',sans-serif}
+.h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,9vw,56px);line-height:.9;color:#fff;letter-spacing:.04em;margin-bottom:10px}
+.h1 b{color:var(--Y);font-weight:400}
+.hsub{font-size:14px;color:#bbb;line-height:1.55;margin-bottom:20px;max-width:340px}
+.hbtns{display:flex;gap:8px;flex-wrap:wrap}
+.bp{background:var(--Y);color:#000;border:none;border-radius:5px;padding:10px 20px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Bebas Neue',sans-serif;letter-spacing:.06em}
+.bs{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.2);border-radius:5px;padding:10px 20px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Bebas Neue',sans-serif;letter-spacing:.06em}
+.hs{background:var(--G2);border-top:2px solid var(--B);border-bottom:1px solid rgba(46,107,196,.2);padding:10px 16px;font-size:12px;color:#bbb;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.hst{font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--Y);letter-spacing:.1em;flex-shrink:0}
+.hsd{width:1px;height:16px;background:rgba(255,255,255,.1);flex-shrink:0}
+.hspill{background:var(--B);color:#fff;border-radius:3px;padding:1px 7px;font-size:11px;font-weight:700;font-family:'Barlow',sans-serif;flex-shrink:0}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.cc{background:var(--G);border:1px solid rgba(255,255,255,.07);border-radius:8px;overflow:hidden;cursor:pointer}
+.cc:hover{border-color:var(--B)}
+.cimg{height:90px;display:flex;align-items:center;justify-content:center;background:var(--G2);overflow:hidden}
+.cimg img{width:100%;height:100%;object-fit:cover}
+.cimgem{font-size:36px;line-height:1}
+.cbody{padding:10px}
+.cname{font-size:13px;font-weight:600;color:#fff;margin-bottom:2px;line-height:1.3}
+.cdesc{font-size:11px;color:#666;margin-bottom:7px;line-height:1.35}
+.cfoot{display:flex;align-items:center;justify-content:space-between}
+.cprice{font-size:14px;font-weight:700;color:var(--Y);font-family:'Bebas Neue',sans-serif;letter-spacing:.03em}
+.cadd{width:26px;height:26px;background:var(--B);color:#fff;border:none;border-radius:5px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cbadge{display:inline-block;font-size:10px;font-weight:700;padding:2px 6px;border-radius:3px;margin-bottom:5px;font-family:'Barlow',sans-serif}
+.bpop{background:rgba(245,197,24,.14);color:var(--Y)}
+.bnew{background:rgba(39,184,101,.14);color:var(--GR)}
+.catrow{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.catp{padding:5px 12px;border-radius:3px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,.09);color:#888;background:transparent;font-family:'Barlow',sans-serif}
+.catp:hover{color:#ddd}
+.catp.on{background:var(--B);color:#fff;border-color:var(--B)}
+.mc{margin-bottom:6px;border:1px solid rgba(255,255,255,.07);border-radius:7px;overflow:hidden}
+.mch{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;cursor:pointer;background:var(--G);font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:.06em;color:#fff;line-height:1}
+.mch:hover{background:var(--G2)}
+.mch .arr{color:#666;font-size:11px;transition:transform .18s;flex-shrink:0}
+.mch.op .arr{transform:rotate(180deg)}
+.mcb{display:none;background:var(--K);border-top:1px solid rgba(255,255,255,.05)}
+.mcb.op{display:block}
+.mi{display:flex;align-items:center;gap:10px;padding:9px 14px;border-bottom:1px solid rgba(255,255,255,.04)}
+.mi:last-child{border-bottom:none}
+.mi-img{width:36px;height:36px;border-radius:5px;background:var(--G2);overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px;line-height:1}
+.mi-img img{width:100%;height:100%;object-fit:cover}
+.mi-info{flex:1;min-width:0}
+.mi-name{font-size:13px;color:#ddd;line-height:1.3}
+.mi-desc{font-size:11px;color:#555;margin-top:1px}
+.mi-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.mi-price{font-size:13px;font-weight:700;color:var(--Y);font-family:'Bebas Neue',sans-serif;letter-spacing:.03em;white-space:nowrap}
+.mi-add{width:24px;height:24px;background:var(--B);color:#fff;border:none;border-radius:4px;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.playout{display:grid;grid-template-columns:1fr 300px;gap:14px;align-items:start}
+@media(max-width:640px){.playout{grid-template-columns:1fr}.csidebar{position:static!important}}
+.csidebar{background:var(--G);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:14px;position:sticky;top:62px}
+.cstitle{font-family:'Bebas Neue',sans-serif;font-size:16px;color:#fff;letter-spacing:.06em;margin-bottom:11px;display:flex;justify-content:space-between;align-items:center}
+.tipog{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:11px}
+.tcard{border:1px solid rgba(255,255,255,.09);border-radius:5px;padding:8px 4px;cursor:pointer;text-align:center;background:var(--G2)}
+.tcard.on{border-color:var(--Y);background:rgba(245,197,24,.07)}
+.tcard .ti{font-size:20px;margin-bottom:2px;line-height:1}
+.tcard .tn{font-size:11px;font-weight:700;color:#999;font-family:'Barlow',sans-serif;letter-spacing:.02em}
+.tcard.on .tn{color:var(--Y)}
+.fg{margin-bottom:10px}
+.fl{font-size:11px;color:#777;display:block;margin-bottom:4px;font-weight:700;letter-spacing:.04em;font-family:'Barlow',sans-serif}
+.fi{width:100%;padding:9px 11px;border:1px solid rgba(255,255,255,.1);border-radius:5px;font-size:14px;background:rgba(255,255,255,.05);color:#ddd;outline:none;font-family:'Barlow',sans-serif}
+.fi:focus{border-color:var(--B)}
+.fi::placeholder{color:#444}
+select.fi{cursor:pointer}
+.cancel-info{background:rgba(231,75,74,.08);border:1px solid rgba(231,75,74,.2);border-radius:5px;padding:8px 10px;font-size:11px;color:#f09595;margin-bottom:10px;line-height:1.5}
+.slotg{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:8px}
+.slot{padding:8px 3px;border:1px solid rgba(255,255,255,.08);border-radius:4px;text-align:center;font-size:12px;cursor:pointer;color:#888;background:var(--G2);font-family:'Barlow',sans-serif}
+.slot:hover:not(.ocu){border-color:var(--B);color:#fff}
+.slot.sel{background:var(--B);color:#fff;border-color:var(--B)}
+.slot.ocu{color:#333;cursor:not-allowed;text-decoration:line-through;font-size:11px}
+.clist{max-height:160px;overflow-y:auto;margin-bottom:9px}
+.ci{display:flex;align-items:center;gap:7px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.cinm{flex:1;font-size:12px;color:#ccc;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cipx{font-size:12px;color:var(--Y);font-weight:700;font-family:'Bebas Neue',sans-serif;white-space:nowrap}
+.qc{display:flex;align-items:center;gap:3px;flex-shrink:0}
+.qb{width:20px;height:20px;border-radius:3px;border:1px solid rgba(255,255,255,.1);background:transparent;color:#aaa;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.qv{font-size:12px;color:#fff;min-width:14px;text-align:center;font-weight:600}
+.ctotal{display:flex;justify-content:space-between;font-weight:700;font-size:15px;padding:7px 0;border-top:1px solid rgba(255,255,255,.07);font-family:'Bebas Neue',sans-serif;letter-spacing:.03em}
+.ctotal span:last-child{color:var(--Y)}
+.bempty{text-align:center;padding:16px;color:#444;font-size:12px}
+.bconf{width:100%;padding:11px;background:var(--Y);color:#000;border:none;border-radius:6px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Bebas Neue',sans-serif;letter-spacing:.07em;margin-top:7px}
+.bconf:disabled{opacity:.5;cursor:not-allowed}
+.rlayout{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+@media(max-width:600px){.rlayout{grid-template-columns:1fr}}
+.rfcard{background:var(--G);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:16px}
+.htable{background:var(--G);border-radius:7px;overflow:hidden;border:1px solid rgba(255,255,255,.06)}
+.hth{background:var(--G2);padding:9px 14px;border-bottom:1px solid rgba(255,255,255,.06);font-family:'Bebas Neue',sans-serif;font-size:13px;color:var(--Y);letter-spacing:.1em}
+.htr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.04)}
+.htr:last-child{border-bottom:none}
+.htd{font-family:'Bebas Neue',sans-serif;font-size:17px;color:#fff;letter-spacing:.06em;width:100px}
+.htt{text-align:right;font-size:12px;color:#bbb;line-height:1.8}
+.htt span{color:var(--BL);font-weight:600}
+.footer{background:var(--G);border-top:2px solid var(--B);padding:24px 16px 14px;margin-top:0}
+.fg3{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+@media(min-width:600px){.fg3{grid-template-columns:2fr 1fr 1fr}}
+.fbrand{font-family:'Bebas Neue',sans-serif;font-size:19px;color:#fff;letter-spacing:.07em;margin-bottom:5px}
+.fbrand b{color:var(--Y);font-weight:400}
+.ftagline{font-size:12px;color:#555;line-height:1.5}
+.fct{font-family:'Bebas Neue',sans-serif;font-size:12px;color:#777;letter-spacing:.1em;margin-bottom:8px}
+.flink{font-size:12px;color:#555;display:block;margin-bottom:4px;cursor:pointer}
+.flink:hover{color:#aaa}
+.fbot{border-top:1px solid rgba(255,255,255,.05);padding-top:10px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+.fcopy{font-size:11px;color:#333}
+.loading{text-align:center;padding:20px;color:#555;font-size:12px}
+.toast{position:fixed;bottom:20px;right:20px;background:var(--G);border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:10px 16px;font-size:13px;color:#fff;font-family:'Barlow',sans-serif;z-index:999;display:none}
+.toast.ok{border-left:3px solid var(--GR)}
+.toast.err{border-left:3px solid var(--RD)}
+::-webkit-scrollbar{width:3px;height:3px}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
+.fr2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* ===== RESPONSIVE MOBILE ===== */
+@media(max-width:640px){
+  /* Fix espacio negro - body ocupa toda la pantalla */
+  html,body{min-height:100vh;min-height:-webkit-fill-available}
+  /* Nav - ocultar links, mostrar solo logo y carrito */
+  .nlinks{display:none}
+  .ntxt{font-size:17px}
+  /* Tabs scroll suave */
+  .tabs{-webkit-overflow-scrolling:touch;padding:0 8px}
+  .tb{padding:9px 11px;font-size:12px}
+  /* Hero compacto */
+  .hero{min-height:200px;padding:24px 14px}
+  .h1{font-size:clamp(34px,11vw,50px)}
+  .hsub{font-size:13px;max-width:260px}
+  .hbtns{gap:6px}
+  .bp,.bs{padding:9px 16px;font-size:14px}
+  /* Horarios strip compacto */
+  .hs{padding:8px 12px;gap:5px;font-size:11px;flex-wrap:wrap}
+  /* Destacados - 2 columnas en mobile */
+  .cgrid{grid-template-columns:repeat(2,1fr)!important;gap:8px}
+  .cimg{height:80px}
+  .cname{font-size:12px}
+  .cprice{font-size:13px}
+  .cbadge{font-size:9px;padding:1px 5px}
+  /* Acordeon menu */
+  .mch{font-size:13px;padding:10px 12px}
+  .mi{padding:8px 12px;gap:8px}
+  .mi-img{width:30px;height:30px;font-size:16px}
+  .mi-name{font-size:12px}
+  .mi-price{font-size:12px}
+  /* PEDIDO - carrito abajo fijo */
+  .playout{grid-template-columns:1fr!important;gap:0}
+  .csidebar{
+    position:fixed!important;
+    bottom:0;left:0;right:0;top:auto;
+    border-radius:14px 14px 0 0;
+    border-bottom:none;
+    z-index:100;
+    max-height:50vh;
+    overflow-y:auto;
+    box-shadow:0 -6px 30px rgba(0,0,0,.7);
+    padding:12px 14px;
+  }
+  .pg#tab-pedido{padding-bottom:280px}
+  /* Tipo entrega full width */
+  .tipog{max-width:100%!important;grid-template-columns:repeat(3,1fr)}
+  .tcard{padding:8px 4px}
+  .tcard .ti{font-size:18px}
+  .tcard .tn{font-size:10px}
+  /* Slots 4 columnas */
+  .slotg{grid-template-columns:repeat(4,1fr);gap:4px}
+  .slot{padding:7px 2px;font-size:11px}
+  /* Formularios */
+  .fi{font-size:14px;padding:10px 11px}
+  /* RESERVAS - una columna */
+  .rlayout{grid-template-columns:1fr!important;gap:12px}
+  .fr2{grid-template-columns:1fr 1fr}
+  /* Horarios tabla full width */
+  .htable{max-width:100%}
+  /* Footer una columna */
+  .fg3{grid-template-columns:1fr!important}
+  /* Título */
+  .ttl{font-size:20px}
+  /* Padding general */
+  .pg{padding:12px}
+}
+</style>
+
+<div style="background:var(--K);min-height:100vh">
+
+<div class="nav">
+  <div class="nbrand">
+    <div class="nlogo ck" style="display:flex;align-items:center;justify-content:center">
+      <svg viewBox="0 0 100 100" width="36" height="36"><circle cx="50" cy="50" r="50" fill="#2e6bc4"/><text x="50" y="39" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="22" fill="#fff" font-weight="900">BAR</text><text x="50" y="63" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="24" fill="#fff" font-weight="900">CLUB</text></svg>
+    </div>
+    <span class="ntxt">BAR<b>CLUB</b></span>
+  </div>
+  <nav class="nlinks">
+    <button class="na on" onclick="gT('inicio')">Inicio</button>
+    <button class="na" onclick="gT('menu')">Menu</button>
+    <button class="na" onclick="gT('pedido')">Pedido</button>
+    <button class="na" onclick="gT('reservas')">Reservas</button>
+    <button class="na" onclick="gT('horarios')">Horarios</button>
+  </nav>
+  <div class="nright">
+    <button class="ncart" onclick="gT('pedido')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.66a2 2 0 002-1.61L23 6H6"/></svg>
+      <span class="nbn" id="badge">0</span>
+    </button>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tb on" onclick="gT('inicio')">Inicio</button>
+  <button class="tb" onclick="gT('menu')">Carta completa</button>
+  <button class="tb" onclick="gT('pedido')">Mi pedido</button>
+  <button class="tb" onclick="gT('reservas')">Reservar mesa</button>
+  <button class="tb" onclick="gT('horarios')">Horarios</button>
+</div>
+
+<!-- INICIO -->
+<div class="pg on" id="tab-inicio">
+  <div class="hero">
+    <div class="hbg"></div>
+    <div class="hq ck" style="position:absolute;right:0;top:0;bottom:0;width:42%;opacity:.22"></div>
+    <div class="hfade"></div>
+    <div class="hc">
+      <div class="heye">9 de Julio 1837 · San Jose, E.R.</div>
+      <div class="h1">BAR<br><b>CLUB</b></div>
+      <p class="hsub">Pedi online, elegí retiro o delivery, o reserva tu mesa.</p>
+      <div class="hbtns">
+        <button class="bp" onclick="gT('menu')">VER CARTA</button>
+        <button class="bs" onclick="gT('reservas')">RESERVAR</button>
+      </div>
+    </div>
+  </div>
+  <div class="hs">
+    <span class="hst">HORARIOS</span><div class="hsd"></div>
+    <span class="hspill">Mar-Dom</span><span style="font-size:12px;color:#ccc">20:00 - 01:00</span>
+    <div class="hsd"></div>
+    <span style="font-size:12px;color:#777">9 de Julio 1837, San Jose</span>
+  </div>
+  <div style="padding-top:18px">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px">
+      <div class="ttl">LO MAS <b>PEDIDO</b></div>
+      <button style="font-size:12px;color:var(--BL);background:none;border:none;cursor:pointer" onclick="gT('menu')">Ver todo →</button>
+    </div>
+    <div class="cgrid" id="destacados-grid"><div class="loading">Cargando...</div></div>
+  </div>
+</div>
+
+<!-- MENU -->
+<div class="pg" id="tab-menu">
+  <div class="ttl" style="margin-bottom:12px">CARTA <b>COMPLETA</b></div>
+  <div id="menu-ac"><div class="loading">Cargando carta...</div></div>
+</div>
+
+<!-- PEDIDO -->
+<div class="pg" id="tab-pedido">
+  <div class="ttl" style="margin-bottom:12px">MI <b>PEDIDO</b></div>
+  <div id="ped-main">
+    <div class="playout">
+      <div>
+        <div class="catrow" id="p-cats"></div>
+        <div class="cgrid" id="p-prods"><div class="loading">Cargando productos...</div></div>
+        <div style="margin-top:18px;border-top:1px solid rgba(255,255,255,.07);padding-top:16px">
+          <div class="ttl" style="font-size:18px;margin-bottom:10px">TIPO DE <b>ENTREGA</b></div>
+          <div class="tipog" style="max-width:220px">
+            <div class="tcard on" id="t-RETIRO" onclick="setTipo('RETIRO')"><div class="ti">&#x1F6CD;&#xFE0F;</div><div class="tn">RETIRO</div></div>
+            <div class="tcard" id="t-DELIVERY" onclick="setTipo('DELIVERY')"><div class="ti">&#x1F6F5;</div><div class="tn">DELIVERY</div></div>
+          </div>
+          <div style="max-width:380px;margin-top:12px">
+            <div class="cancel-info">Podés cancelar tu pedido sin cargo hasta <strong>30 minutos</strong> antes del horario elegido.</div>
+            <div class="fg"><label class="fl">Tu nombre</label><input class="fi" type="text" placeholder="Nombre completo" id="ped-nombre"></div>
+            <div class="fg"><label class="fl">Telefono</label><input class="fi" type="tel" placeholder="3447 50 93 48" id="ped-tel"></div>
+            <div class="fg" id="dir-f" style="display:none"><label class="fl">Direccion de entrega</label><input class="fi" type="text" placeholder="Calle, numero, piso..." id="ped-dir"></div>
+            <div class="fg"><label class="fl">Metodo de pago</label>
+              <select class="fi" id="ped-pago">
+                <option value="EFECTIVO">Efectivo</option>
+                <option value="TARJETA">Tarjeta</option>
+                <option value="TRANSFERENCIA">Transferencia</option>
+              </select>
+            </div>
+            <div class="fg"><label class="fl">Hora de entrega</label>
+              <div class="slotg" id="slots-grid"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="csidebar">
+        <div class="cstitle">CARRITO <span style="font-size:11px;color:#555;font-weight:400" id="cart-cnt">0 items</span></div>
+        <div class="clist" id="cart-list"><div class="bempty">Agrega productos desde la carta</div></div>
+        <div class="ctotal"><span>TOTAL</span><span id="cart-total">$0</span></div>
+        <button class="bconf" id="btn-confirmar" onclick="confirmarPed()">CONFIRMAR PEDIDO</button>
+        <button style="width:100%;padding:8px;background:transparent;border:1px solid rgba(255,255,255,.09);border-radius:5px;color:#666;font-size:12px;cursor:pointer;margin-top:6px;font-family:'Barlow',sans-serif" onclick="gT('menu')">+ Agregar mas productos</button>
+      </div>
+    </div>
+  </div>
+  <div id="ped-ok" style="display:none;text-align:center;padding:36px 16px">
+    <div style="width:52px;height:52px;border-radius:50%;background:rgba(245,197,24,.1);border:2px solid var(--Y);display:flex;align-items:center;justify-content:center;margin:0 auto 14px">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--Y)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:#fff;letter-spacing:.06em;margin-bottom:7px">PEDIDO CONFIRMADO ✓</div>
+    <div style="font-size:13px;color:#888;margin-bottom:16px">Tu pedido fue recibido. Podés cancelarlo dentro de los primeros 30 minutos.</div>
+    <div style="background:rgba(245,197,24,.08);border:1px solid rgba(245,197,24,.24);border-radius:5px;padding:9px 20px;display:inline-block;color:var(--Y);font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:.04em" id="ped-numero">N° DE PEDIDO: #—</div>
+    <div style="margin-top:16px"><button class="bconf" style="max-width:190px;display:block;margin:0 auto" onclick="resetPed()">NUEVO PEDIDO</button></div>
+  </div>
+</div>
+
+<!-- RESERVAS -->
+<div class="pg" id="tab-reservas">
+  <div class="ttl" style="margin-bottom:14px">RESERVA TU <b>MESA</b></div>
+  <div class="rlayout">
+    <div>
+      <p style="font-size:13px;color:#888;margin-bottom:16px;line-height:1.6">Asegura tu lugar. Cancelás sin cargo hasta <strong style="color:#ddd">2 horas antes</strong>.</p>
+      <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:16px">
+        <div style="display:flex;align-items:center;gap:9px"><div style="width:6px;height:6px;border-radius:50%;background:var(--Y);flex-shrink:0"></div><span style="font-size:13px;color:#aaa">Confirmacion inmediata</span></div>
+        <div style="display:flex;align-items:center;gap:9px"><div style="width:6px;height:6px;border-radius:50%;background:var(--Y);flex-shrink:0"></div><span style="font-size:13px;color:#aaa">Cancelacion sin cargo hasta 2 hs antes</span></div>
+        <div style="display:flex;align-items:center;gap:9px"><div style="width:6px;height:6px;border-radius:50%;background:var(--Y);flex-shrink:0"></div><span style="font-size:13px;color:#aaa">Hasta 20 personas</span></div>
+      </div>
+      <div style="background:var(--G2);border-radius:6px;padding:12px;border:1px solid rgba(255,255,255,.06);margin-bottom:16px">
+        <div style="font-size:11px;color:#666;font-weight:700;letter-spacing:.07em;margin-bottom:9px;font-family:'Barlow',sans-serif">HORARIOS MAS PEDIDOS</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;align-items:center;gap:9px"><div style="height:5px;background:var(--B);border-radius:2px;width:80%"></div><span style="color:#666;font-size:11px">20:00</span></div>
+          <div style="display:flex;align-items:center;gap:9px"><div style="height:5px;background:var(--B);border-radius:2px;width:62%"></div><span style="color:#666;font-size:11px">21:00</span></div>
+          <div style="display:flex;align-items:center;gap:9px"><div style="height:5px;background:var(--B);border-radius:2px;width:42%"></div><span style="color:#666;font-size:11px">12:30</span></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="rfcard" id="res-form">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:16px;color:#fff;letter-spacing:.06em;margin-bottom:13px">NUEVA RESERVA</div>
+        <div class="fg"><label class="fl">Nombre y apellido</label><input class="fi" type="text" id="res-nombre" placeholder="Tu nombre completo"></div>
+        <div class="fr2">
+          <div class="fg"><label class="fl">Fecha</label><input class="fi" type="date" id="res-fecha"></div>
+          <div class="fg"><label class="fl">Hora</label><input class="fi" type="time" id="res-hora" value="20:00"></div>
+        </div>
+        <div class="fg"><label class="fl">Personas</label>
+          <select class="fi" id="res-pers">
+            <option value="2">2 personas</option><option value="3">3 personas</option><option value="4">4 personas</option>
+            <option value="6">5-8 personas</option><option value="12">9-15 personas</option><option value="18">16-20 personas</option>
+          </select>
+        </div>
+        <div class="fg"><label class="fl">Telefono</label><input class="fi" type="tel" id="res-tel" placeholder="3447 50 93 48"></div>
+        <div class="fg"><label class="fl">Aclaraciones (opcional)</label><input class="fi" type="text" id="res-obs" placeholder="Cumpleanos, silla bebe..."></div>
+        <div class="cancel-info">Cancelacion sin cargo hasta <strong>2 horas antes</strong> de la reserva.</div>
+        <button class="bconf" onclick="confirmarRes()">RESERVAR MESA</button>
+      </div>
+      <div id="res-ok" style="display:none" class="rfcard">
+        <div style="text-align:center;padding:12px 0">
+          <div style="width:44px;height:44px;border-radius:50%;background:rgba(245,197,24,.1);border:2px solid var(--Y);display:flex;align-items:center;justify-content:center;margin:0 auto 12px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--Y)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:#fff;letter-spacing:.06em;margin-bottom:5px">RESERVA CONFIRMADA ✓</div>
+          <div style="font-size:12px;color:#888;margin-bottom:13px">Te esperamos. Podés cancelar hasta 2 hs antes.</div>
+          <div style="margin-top:11px"><button style="background:transparent;border:1px solid rgba(255,255,255,.09);color:#666;border-radius:5px;padding:6px 13px;font-size:11px;cursor:pointer;font-family:'Barlow',sans-serif" onclick="document.getElementById('res-ok').style.display='none';document.getElementById('res-form').style.display='block'">Nueva reserva</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HORARIOS -->
+<div class="pg" id="tab-horarios">
+  <div class="ttl" style="margin-bottom:16px">HORARIOS <b>DE ATENCION</b></div>
+  <div style="display:grid;grid-template-columns:1fr;gap:14px;max-width:600px">
+    <div class="htable" id="hor-table"></div>
+    <div style="background:var(--G);border-radius:7px;padding:15px;border:1px solid rgba(255,255,255,.06)">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:16px;color:#fff;letter-spacing:.06em;margin-bottom:12px">UBICACION</div>
+      <div style="display:flex;align-items:flex-start;gap:9px;margin-bottom:10px">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--Y)" stroke-width="2" style="flex-shrink:0;margin-top:2px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <div><div style="font-size:13px;color:#ddd;font-weight:600">Bar Club</div><div style="font-size:12px;color:#666;margin-top:1px">9 de Julio 1837 · San Jose, Entre Rios</div></div>
+      </div>
+      <div style="background:rgba(245,197,24,.06);border:1px solid rgba(245,197,24,.14);border-radius:4px;padding:8px 11px;font-size:12px;color:var(--Y);font-weight:700;font-family:'Barlow',sans-serif;letter-spacing:.03em">Abierto Mar-Dom · Cerrado los Lunes</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="ck" style="height:3px;margin:-24px -16px 18px;opacity:.4"></div>
+  <div class="fg3">
+    <div><div class="fbrand">BAR<b>CLUB</b></div><div class="ftagline">Pedidos online · Delivery · Reservas. San Jose, Entre Rios.</div></div>
+    <div><div class="fct">NAVEGACION</div><span class="flink" onclick="gT('inicio')">Inicio</span><span class="flink" onclick="gT('menu')">Carta</span><span class="flink" onclick="gT('pedido')">Pedido</span><span class="flink" onclick="gT('reservas')">Reservas</span></div>
+    <div style="grid-column:span 2"><div class="fct">CONTACTO</div><span class="flink">9 de Julio 1837, San Jose</span><span class="flink">Mar-Dom 20:00 - 01:00 hs</span><span class="flink">Tel: 3447 50 93 48</span></div>
+  </div>
+  <div class="fbot"><span class="fcopy">© 2026 Bar Club · San Jose, Entre Rios</span><span style="color:#333;font-size:11px">Spring Boot + MySQL</span></div>
+</div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API = 'http://192.168.100.7:8080/api';
+const EMOJIS = {Empanadas:'&#x1F95F;',Pizzas:'&#x1F355;',Sandwiches:'&#x1F96A;',Minutas:'&#x1F37D;&#xFE0F;',Papas:'&#x1F35F;',Parrilla:'&#x1F525;',Pastas:'&#x1F35D;',Ensaladas:'&#x1F957;',Vegetariano:'&#x1F33F;',Vinos:'&#x1F377;',Cervezas:'&#x1F37A;',Gaseosas:'&#x1F964;',Postres:'&#x1F36E;'};
+const SLOTS = ['20:00','20:30','21:00','21:30','22:00','22:30','23:00','23:30','00:00','00:30'];
+
+let todosProductos = [];
+let cart = {};
+let total = 0;
+let tipoEntrega = 'RETIRO';
+let slotSel = null;
+
+// ===================== TOAST =====================
+function toast(msg, tipo='ok') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + tipo;
+  t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 3000);
+}
+
+// ===================== API =====================
+async function api(path, method='GET', body=null) {
+  const opts = {method, headers:{'Content-Type':'application/json'}};
+  if (body) opts.body = JSON.stringify(body);
+  const res = await fetch(API + path, opts);
+  if (!res.ok) throw new Error('Error ' + res.status);
+  if (res.status === 204) return null;
+  return res.json();
+}
+
+// ===================== TABS =====================
+function gT(n) {
+  document.querySelectorAll('.pg').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.tb,.na').forEach(b => b.classList.remove('on'));
+  document.getElementById('tab-' + n).classList.add('on');
+  document.querySelectorAll('.tb,.na').forEach(b => {
+    const t = b.textContent.toLowerCase().trim();
+    if ((n==='inicio'&&t==='inicio')||(n==='menu'&&(t.includes('carta')||t==='menu'))||(n==='pedido'&&t.includes('pedido'))||(n==='reservas'&&(t==='reservas'||t.includes('reservar')))||(n==='horarios'&&t.includes('horario'))) b.classList.add('on');
+  });
+}
+
+// ===================== CARGAR PRODUCTOS =====================
+async function cargarProductos() {
+  try {
+    todosProductos = await api('/productos/activos');
+    buildDestacados();
+    buildMenuAc();
+    buildPedMenu();
+  } catch(e) {
+    document.getElementById('destacados-grid').innerHTML = '<div style="color:#f09595;font-size:12px;padding:10px">No se pudo conectar al servidor. Verificá que el backend esté corriendo.</div>';
+    document.getElementById('menu-ac').innerHTML = '<div style="color:#f09595;font-size:12px;padding:10px">Error al cargar el menú.</div>';
+  }
+}
+
+// ===================== DESTACADOS =====================
+function buildDestacados() {
+  // Mostrar los primeros 4 productos de categorias populares
+  const destacados = [];
+  const cats = ['Sandwiches','Parrilla','Papas','Pizzas','Empanadas'];
+  cats.forEach(cat => {
+    const prod = todosProductos.find(p => p.categoria === cat);
+    if (prod && destacados.length < 4) destacados.push(prod);
+  });
+  // Si no hay suficientes, completar con los primeros
+  if (destacados.length < 4) {
+    todosProductos.slice(0, 4 - destacados.length).forEach(p => {
+      if (!destacados.find(d => d.id === p.id)) destacados.push(p);
+    });
+  }
+  const em_map = {Sandwiches:'&#x1F96A;',Parrilla:'&#x1F525;',Papas:'&#x1F35F;',Pizzas:'&#x1F355;',Empanadas:'&#x1F95F;'};
+  document.getElementById('destacados-grid').innerHTML = destacados.map(p => {
+    const em = EMOJIS[p.categoria] || '&#x1F374;';
+    return `<div class="cc" onclick="addI(${p.id},'${p.nombre.replace(/'/g,'')}',${p.precio},'${p.categoria}')">
+      <div class="cimg">${p.imagenUrl ? `<img src="${p.imagenUrl}" alt="${p.nombre}" onerror="this.parentElement.innerHTML='<span class=\\'cimgem\\'>${em}</span>'">` : `<span class="cimgem">${em}</span>`}</div>
+      <div class="cbody"><span class="cbadge bpop">ESTRELLA</span><div class="cname">${p.nombre}</div><div class="cdesc">${p.descripcion||''}</div><div class="cfoot"><span class="cprice">$${p.precio.toLocaleString('es-AR')}</span><button class="cadd">+</button></div></div>
+    </div>`;
+  }).join('');
+}
+
+// ===================== MENU ACORDEON =====================
+function buildMenuAc() {
+  const cats = [...new Set(todosProductos.map(p => p.categoria))];
+  const c = document.getElementById('menu-ac'); c.innerHTML = '';
+  cats.forEach(cat => {
+    const items = todosProductos.filter(p => p.categoria === cat);
+    const em = EMOJIS[cat] || '&#x1F374;';
+    const d = document.createElement('div'); d.className = 'mc';
+    d.innerHTML = `<div class="mch" onclick="tc(this)"><span>${em} ${cat.toUpperCase()}</span><span class="arr">&#x25BC;</span></div>
+    <div class="mcb">${items.map(i => `<div class="mi">
+      <div class="mi-img">${i.imagenUrl ? `<img src="${i.imagenUrl}" alt="${i.nombre}" onerror="this.parentElement.innerHTML='<span>${em}</span>'">` : `<span style="font-size:20px;line-height:1">${em}</span>`}</div>
+      <div class="mi-info"><div class="mi-name">${i.nombre}</div>${i.descripcion ? `<div class="mi-desc">${i.descripcion}</div>` : ''}</div>
+      <div class="mi-right"><span class="mi-price">$${i.precio.toLocaleString('es-AR')}</span><button class="mi-add" onclick="addI(${i.id},'${i.nombre.replace(/'/g,'')}',${i.precio},'${cat}')">+</button></div>
+    </div>`).join('')}</div>`;
+    c.appendChild(d);
+  });
+}
+function tc(h) { h.classList.toggle('op'); h.nextElementSibling.classList.toggle('op'); }
+
+// ===================== PEDIDO - MENU =====================
+function buildPedMenu() {
+  const cats = [...new Set(todosProductos.map(p => p.categoria))];
+  const cr = document.getElementById('p-cats'); cr.innerHTML = '';
+  cats.forEach((cat, i) => {
+    const b = document.createElement('button'); b.className = 'catp' + (i===0?' on':''); b.textContent = cat;
+    b.onclick = () => { document.querySelectorAll('#p-cats .catp').forEach(x => x.classList.remove('on')); b.classList.add('on'); renderPProds(cat); };
+    cr.appendChild(b);
+  });
+  if (cats.length) renderPProds(cats[0]);
+  buildSlots();
+}
+
+function renderPProds(cat) {
+  const items = todosProductos.filter(p => p.categoria === cat);
+  const em = EMOJIS[cat] || '&#x1F374;';
+  document.getElementById('p-prods').innerHTML = items.map(i => `
+    <div class="cc" onclick="addI(${i.id},'${i.nombre.replace(/'/g,'')}',${i.precio},'${i.categoria}')">
+      <div class="cimg">${i.imagenUrl ? `<img src="${i.imagenUrl}" alt="${i.nombre}" onerror="this.parentElement.innerHTML='<span class=\\'cimgem\\'>${em}</span>'">` : `<span class="cimgem">${em}</span>`}</div>
+      <div class="cbody"><div class="cname">${i.nombre}</div><div class="cfoot"><span class="cprice">$${i.precio.toLocaleString('es-AR')}</span><button class="cadd">+</button></div></div>
+    </div>`).join('');
+}
+
+function buildSlots() {
+  document.getElementById('slots-grid').innerHTML = SLOTS.map(s =>
+    `<div class="slot" onclick="selSlot(this)">${s}</div>`
+  ).join('');
+}
+
+// ===================== CARRITO =====================
+function addI(id, name, price, cat) {
+  if (!cart[id]) cart[id] = {id, name, price, emoji: EMOJIS[cat]||'&#x1F374;', qty:0};
+  cart[id].qty++; total += price; renderCart();
+  document.getElementById('badge').textContent = Object.values(cart).reduce((a,c) => a+c.qty, 0);
+}
+function chQ(id, d) {
+  if (!cart[id]) return;
+  cart[id].qty += d; total += d * cart[id].price;
+  if (cart[id].qty <= 0) delete cart[id];
+  renderCart();
+  document.getElementById('badge').textContent = Object.values(cart).reduce((a,c) => a+c.qty, 0);
+}
+function renderCart() {
+  const d = document.getElementById('cart-list');
+  const e = Object.entries(cart);
+  const cnt = Object.values(cart).reduce((a,c) => a+c.qty, 0);
+  document.getElementById('cart-cnt').textContent = cnt + ' item' + (cnt !== 1 ? 's' : '');
+  if (!e.length) { d.innerHTML = '<div class="bempty">Agrega productos desde la carta</div>'; document.getElementById('cart-total').textContent = '$0'; return; }
+  d.innerHTML = e.map(([id,{name,price,emoji,qty}]) => `
+    <div class="ci">
+      <span style="font-size:15px;flex-shrink:0">${emoji}</span>
+      <span class="cinm">${name}</span>
+      <div class="qc">
+        <button class="qb" onclick="chQ(${id},-1)">−</button>
+        <span class="qv">${qty}</span>
+        <button class="qb" onclick="chQ(${id},1)">+</button>
+      </div>
+      <span class="cipx">$${(price*qty).toLocaleString('es-AR')}</span>
+    </div>`).join('');
+  document.getElementById('cart-total').textContent = '$' + total.toLocaleString('es-AR');
+}
+
+function setTipo(t) {
+  tipoEntrega = t;
+  ['RETIRO','DELIVERY'].forEach(x => document.getElementById('t-'+x).classList.toggle('on', x===t));
+  document.getElementById('dir-f').style.display = t==='DELIVERY' ? 'block' : 'none';
+}
+
+function selSlot(el) {
+  if (el.classList.contains('ocu')) return;
+  document.querySelectorAll('.slot').forEach(s => s.classList.remove('sel'));
+  el.classList.add('sel');
+  slotSel = el.textContent + ':00';
+}
+
+async function confirmarPed() {
+  if (!Object.keys(cart).length) { toast('Agrega al menos un producto', 'err'); return; }
+  const nombre = document.getElementById('ped-nombre').value.trim();
+  if (!nombre) { toast('Ingresá tu nombre', 'err'); return; }
+  const tel = document.getElementById('ped-tel').value.trim();
+  const dir = document.getElementById('ped-dir').value.trim();
+  const pago = document.getElementById('ped-pago').value;
+  const detalles = Object.values(cart).map(c => ({productoId: c.id, cantidad: c.qty}));
+  const btn = document.getElementById('btn-confirmar');
+  btn.disabled = true; btn.textContent = 'ENVIANDO...';
+  try {
+    // 1. Crear el pedido
+    const ped = await api('/pedidos', 'POST', {
+      usuarioId: 1,
+      nombreCliente: nombre,
+      telefonoCliente: tel,
+      tipo: tipoEntrega,
+      direccionEntrega: tipoEntrega === 'DELIVERY' ? dir : null,
+      horarioEntrega: slotSel,
+      detalles
+    });
+    // 2. Intentar registrar la venta (puede fallar si el backend lo maneja diferente, no es critico)
+    try { await api('/ventas', 'POST', {pedidoId: ped.id, metodoPago: pago}); } catch(e) {}
+    // 3. Mostrar confirmacion siempre que el pedido se creó
+    document.getElementById('ped-numero').textContent = 'N° DE PEDIDO: #' + ped.id;
+    document.getElementById('ped-main').style.display = 'none';
+    document.getElementById('ped-ok').style.display = 'block';
+  } catch(e) {
+    toast('Error al enviar el pedido. Verificá tu conexión.', 'err');
+    btn.disabled = false; btn.textContent = 'CONFIRMAR PEDIDO';
+    return;
+  }
+  btn.disabled = false; btn.textContent = 'CONFIRMAR PEDIDO';
+}
+
+function resetPed() {
+  cart = {}; total = 0; slotSel = null;
+  document.getElementById('badge').textContent = 0;
+  document.getElementById('ped-main').style.display = '';
+  document.getElementById('ped-ok').style.display = 'none';
+  document.getElementById('ped-nombre').value = '';
+  document.getElementById('ped-tel').value = '';
+  renderCart();
+  buildSlots();
+  gT('menu');
+}
+
+// ===================== RESERVAS =====================
+async function confirmarRes() {
+  const nombre = document.getElementById('res-nombre').value.trim();
+  const fecha = document.getElementById('res-fecha').value;
+  const hora = document.getElementById('res-hora').value + ':00';
+  const personas = parseInt(document.getElementById('res-pers').value);
+  const tel = document.getElementById('res-tel').value.trim();
+  const obs = document.getElementById('res-obs').value.trim();
+  if (!nombre || !fecha) { toast('Completá nombre y fecha', 'err'); return; }
+  try {
+    await api('/reservas', 'POST', {
+      nombreCliente: nombre,
+      fecha, hora,
+      cantidadPersonas: personas,
+      telefono: tel,
+      aclaraciones: obs
+    });
+    document.getElementById('res-form').style.display = 'none';
+    document.getElementById('res-ok').style.display = 'block';
+    toast('Reserva confirmada para ' + nombre);
+  } catch(e) {
+    toast('Error al registrar la reserva', 'err');
+  }
+}
+
+// ===================== HORARIOS =====================
+function buildHorarios() {
+  const DIAS = [{d:'Martes',c:false},{d:'Miercoles',c:false},{d:'Jueves',c:false},{d:'Viernes',c:false},{d:'Sabado',c:false},{d:'Domingo',c:false},{d:'Lunes',c:true}];
+  document.getElementById('hor-table').innerHTML = `<div class="hth">DIAS Y HORARIOS</div>` +
+    DIAS.map(r => `<div class="htr"><span class="htd" style="${r.c?'color:#444':''}">${r.d}</span><div class="htt">${r.c ? '<span style="color:#444">Cerrado</span>' : `<div><span>20:00</span> a <span>01:00</span></div>`}</div></div>`).join('');
+}
+
+// ===================== INIT =====================
+const hoy = new Date().toISOString().split('T')[0];
+document.getElementById('res-fecha').value = hoy;
+buildHorarios();
+cargarProductos();
+</script>

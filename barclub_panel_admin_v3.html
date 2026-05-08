@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0a0a0f">
+<title>Bar Club — Panel Admin</title>
+</head>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--K:#0a0a0f;--B:#2e6bc4;--BL:#4a8ee8;--Y:#f5c518;--G:#1a1a24;--G2:#2a2a38;--G3:#12121a;--T:#e0e0d8;--GR:#27b865;--RD:#e24b4a;--OR:#ef9f27}
+html,body{background:var(--G3);color:var(--T);font-family:'Barlow',sans-serif;font-size:15px}
+.ck{background-color:var(--B);background-image:linear-gradient(rgba(255,255,255,.2) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.2) 1px,transparent 1px);background-size:20px 20px}
+/* LOGIN */
+.lw{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.lbg{position:absolute;inset:0;background:var(--K)}
+.lcard{position:relative;z-index:1;background:var(--G);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:32px 28px;width:100%;max-width:370px}
+.logo-row{display:flex;align-items:center;gap:11px;justify-content:center;margin-bottom:24px}
+.logo-c{width:50px;height:50px;border-radius:50%;border:2px solid var(--B);overflow:hidden;flex-shrink:0}
+.lbrand{font-family:'Bebas Neue',sans-serif;font-size:26px;color:#fff;letter-spacing:.08em;line-height:1}
+.lbrand b{color:var(--Y);font-weight:400}
+.lsub{font-size:11px;color:#555;font-family:'Barlow',sans-serif;letter-spacing:.06em}
+.ltitle{font-family:'Bebas Neue',sans-serif;font-size:17px;color:#999;letter-spacing:.1em;text-align:center;margin-bottom:18px}
+.lbadge{display:flex;align-items:center;gap:8px;background:rgba(245,197,24,.07);border:1px solid rgba(245,197,24,.18);border-radius:5px;padding:7px 11px;margin-bottom:18px;font-size:12px;color:#aaa;font-family:'Barlow',sans-serif}
+.fg{margin-bottom:11px}
+.fl{font-size:11px;color:#777;display:block;margin-bottom:4px;font-weight:700;letter-spacing:.04em;font-family:'Barlow',sans-serif}
+.fi{width:100%;padding:9px 11px;border:1px solid rgba(255,255,255,.1);border-radius:5px;font-size:14px;background:rgba(255,255,255,.05);color:#ddd;outline:none;font-family:'Barlow',sans-serif}
+.fi:focus{border-color:var(--B)}
+.fi::placeholder{color:#444}
+select.fi{cursor:pointer}
+.lbtn{width:100%;padding:11px;background:var(--Y);color:#000;border:none;border-radius:6px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Bebas Neue',sans-serif;letter-spacing:.08em;margin-top:2px}
+.lbtn:disabled{opacity:.5;cursor:not-allowed}
+.lerr{font-size:12px;color:var(--RD);text-align:center;margin-top:8px;display:none;font-family:'Barlow',sans-serif}
+.lhint{font-size:11px;color:#555;text-align:center;margin-top:12px;line-height:1.6;font-family:'Barlow',sans-serif}
+.lhint b{color:#888;font-weight:400}
+/* PANEL NAV */
+.pnav{background:rgba(10,10,15,.97);border-bottom:2px solid var(--B);display:flex;align-items:center;padding:0 16px;height:54px;gap:12px;position:sticky;top:0;z-index:200}
+.pnbrand{display:flex;align-items:center;gap:9px;flex-shrink:0}
+.pnlogo{width:34px;height:34px;border-radius:50%;border:2px solid var(--B);overflow:hidden;flex-shrink:0}
+.pntxt{font-family:'Bebas Neue',sans-serif;font-size:18px;color:#fff;letter-spacing:.07em;line-height:1}
+.pntxt b{color:var(--Y);font-weight:400}
+.pnrol{font-size:10px;font-weight:700;padding:2px 7px;border-radius:3px;font-family:'Barlow',sans-serif;letter-spacing:.04em}
+.ra{background:rgba(231,75,74,.16);color:#f09595}
+.rc{background:rgba(46,107,196,.18);color:var(--BL)}
+.rco{background:rgba(239,159,39,.16);color:var(--OR)}
+.pnright{margin-left:auto;display:flex;align-items:center;gap:9px;flex-shrink:0}
+.pnuser{font-size:12px;color:#888;font-family:'Barlow',sans-serif;display:flex;align-items:center;gap:6px}
+.udot{width:7px;height:7px;border-radius:50%;background:var(--GR);flex-shrink:0}
+.logoutb{background:rgba(255,255,255,.05);color:#777;border:1px solid rgba(255,255,255,.09);border-radius:4px;padding:4px 11px;font-size:12px;cursor:pointer;font-family:'Barlow',sans-serif;font-weight:700;letter-spacing:.03em}
+/* SUBTABS */
+.stabs{background:var(--G);border-bottom:1px solid rgba(255,255,255,.06);display:flex;overflow-x:auto;padding:0 16px}
+.stb{padding:10px 15px;font-size:13px;font-weight:600;color:#666;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;background:none;border-left:none;border-right:none;border-top:none;letter-spacing:.02em;font-family:'Barlow',sans-serif}
+.stb:hover{color:#bbb}
+.stb.on{color:#fff;border-bottom-color:var(--Y)}
+/* MAIN */
+.pmain{padding:16px}
+.sp{display:none}
+.sp.on{display:block}
+.ttl{font-family:'Bebas Neue',sans-serif;font-size:22px;color:#fff;letter-spacing:.06em;margin-bottom:14px;line-height:1}
+.ttl b{color:var(--Y);font-weight:400}
+/* STATS */
+.s4{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px}
+@media(min-width:500px){.s4{grid-template-columns:repeat(4,1fr)}}
+.sc{background:var(--G);border:1px solid rgba(255,255,255,.06);border-radius:7px;padding:12px 13px}
+.scv{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.04em;line-height:1}
+.scl{font-size:10px;color:#666;font-family:'Barlow',sans-serif;letter-spacing:.06em;margin-top:3px}
+.sc.y .scv{color:var(--Y)}
+.sc.g .scv{color:var(--GR)}
+.sc.o .scv{color:var(--OR)}
+.sc.r .scv{color:var(--RD)}
+/* PEDIDOS */
+.pg2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+@media(max-width:500px){.pg2{grid-template-columns:1fr}}
+.pdc{background:var(--G);border:1px solid rgba(255,255,255,.07);border-radius:7px;padding:12px}
+.pdc:hover{border-color:rgba(255,255,255,.14)}
+.pdh{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.pdnum{font-family:'Bebas Neue',sans-serif;font-size:16px;color:#fff;letter-spacing:.05em}
+.tbdg{font-size:10px;font-weight:700;padding:2px 7px;border-radius:3px;font-family:'Barlow',sans-serif;letter-spacing:.04em}
+.tl{background:rgba(46,107,196,.2);color:var(--BL)}
+.tr{background:rgba(245,197,24,.14);color:var(--Y)}
+.td{background:rgba(231,75,74,.16);color:#f09595}
+.pdcli{font-size:11px;color:#666;margin-bottom:7px}
+.pditems{font-size:12px;color:#aaa;line-height:1.5;margin-bottom:8px}
+.pdf{display:flex;align-items:center;justify-content:space-between}
+.pdtot{font-family:'Bebas Neue',sans-serif;font-size:15px;color:var(--Y);letter-spacing:.04em}
+.estb{font-size:10px;font-weight:700;padding:3px 8px;border-radius:3px;cursor:pointer;border:none;font-family:'Barlow',sans-serif;letter-spacing:.04em}
+.ep{background:rgba(231,75,74,.16);color:#f09595}
+.epr{background:rgba(239,159,39,.15);color:var(--OR)}
+.el{background:rgba(74,142,232,.18);color:var(--BL)}
+.ee{background:rgba(39,184,101,.14);color:var(--GR)}
+.bcancel{background:rgba(231,75,74,.1);color:#f09595;border:1px solid rgba(231,75,74,.2);border-radius:3px;padding:3px 8px;font-size:10px;font-weight:700;cursor:pointer;font-family:'Barlow',sans-serif;margin-top:6px;display:block}
+.ctime{font-size:10px;color:#555;margin-top:3px;font-family:'Barlow',sans-serif}
+/* COCINA */
+.cg{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+@media(max-width:600px){.cg{grid-template-columns:1fr}}
+.cc{background:var(--G);border-radius:7px;overflow:hidden}
+.cch{padding:9px 12px;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.07em;display:flex;align-items:center;justify-content:space-between}
+.chp{background:rgba(231,75,74,.12);color:#f09595;border-bottom:1px solid rgba(231,75,74,.15)}
+.chpr{background:rgba(239,159,39,.12);color:var(--OR);border-bottom:1px solid rgba(239,159,39,.15)}
+.chl{background:rgba(74,142,232,.12);color:var(--BL);border-bottom:1px solid rgba(74,142,232,.15)}
+.ccnt{background:rgba(255,255,255,.08);border-radius:99px;font-size:10px;padding:1px 6px;font-family:'Barlow',sans-serif;font-weight:700}
+.cb{padding:8px;display:flex;flex-direction:column;gap:6px;min-height:60px}
+.ct{background:var(--G2);border-radius:5px;padding:8px 10px;border-left:3px solid}
+.ct.p{border-left-color:var(--RD)}
+.ct.pr{border-left-color:var(--OR)}
+.ct.l{border-left-color:var(--BL)}
+.ctnum{font-family:'Bebas Neue',sans-serif;font-size:14px;color:#fff;letter-spacing:.05em}
+.ctdet{font-size:11px;color:#888;margin:3px 0;line-height:1.4}
+.cthora{font-size:10px;color:#555;font-family:'Barlow',sans-serif}
+.cav{width:100%;margin-top:6px;padding:5px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:3px;color:#777;font-size:11px;cursor:pointer;font-family:'Barlow',sans-serif;font-weight:700;letter-spacing:.03em}
+.cav:hover{color:#fff;background:rgba(255,255,255,.1)}
+/* VENTAS */
+.vl{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:600px){.vl{grid-template-columns:1fr 260px}}
+.vtbl{background:var(--G);border-radius:7px;overflow:hidden;border:1px solid rgba(255,255,255,.06)}
+.vtblh{background:var(--G2);padding:9px 13px;border-bottom:1px solid rgba(255,255,255,.06);font-family:'Bebas Neue',sans-serif;font-size:13px;color:#888;letter-spacing:.08em}
+.vrow{display:flex;align-items:center;gap:8px;padding:9px 13px;border-bottom:1px solid rgba(255,255,255,.04)}
+.vnum{font-family:'Bebas Neue',sans-serif;font-size:14px;color:#fff;letter-spacing:.05em;width:50px;flex-shrink:0}
+.vi{flex:1;min-width:0}
+.vcli{font-size:12px;color:#ccc;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vhora{font-size:10px;color:#555}
+.vmp{font-size:10px;font-weight:700;padding:2px 6px;border-radius:3px;font-family:'Barlow',sans-serif;flex-shrink:0}
+.me{background:rgba(39,184,101,.12);color:var(--GR)}
+.mt{background:rgba(46,107,196,.16);color:var(--BL)}
+.mtr{background:rgba(239,159,39,.12);color:var(--OR)}
+.vmonto{font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--Y);letter-spacing:.04em;flex-shrink:0;white-space:nowrap}
+.rp{background:var(--G);border-radius:7px;padding:14px;border:1px solid rgba(255,255,255,.06)}
+.rpt{font-family:'Bebas Neue',sans-serif;font-size:15px;color:#fff;letter-spacing:.06em;margin-bottom:11px}
+.rr{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:12px}
+.rr span:first-child{color:#666}
+.rr span:last-child{color:#ccc;font-weight:600}
+.rrtot{display:flex;justify-content:space-between;padding:9px 0 0;font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:.04em;color:#fff}
+.rrtot span:last-child{color:var(--Y)}
+/* RESERVAS */
+.resg{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:600px){.resg{grid-template-columns:1fr 260px}}
+.rlist{background:var(--G);border-radius:7px;overflow:hidden;border:1px solid rgba(255,255,255,.06)}
+.rlh{background:var(--G2);padding:9px 13px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between}
+.rlht{font-family:'Bebas Neue',sans-serif;font-size:14px;color:#fff;letter-spacing:.06em}
+.ri{display:flex;align-items:center;gap:9px;padding:10px 13px;border-bottom:1px solid rgba(255,255,255,.04)}
+.riav{width:30px;height:30px;border-radius:50%;background:rgba(46,107,196,.2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--BL);font-family:'Barlow',sans-serif;flex-shrink:0}
+.riinfo{flex:1;min-width:0}
+.rinombre{font-size:12px;font-weight:600;color:#ccc;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rimeta{font-size:10px;color:#555}
+.riright{text-align:right;flex-shrink:0}
+.rihora{font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--Y);letter-spacing:.04em}
+.ripax{font-size:10px;color:#666;font-family:'Barlow',sans-serif}
+.ricancel{font-size:10px;color:#f09595;cursor:pointer;font-family:'Barlow',sans-serif;font-weight:700;margin-top:2px;background:none;border:none;padding:0;display:block}
+/* GESTOR MENU */
+.mg-cats{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.mg-cat{padding:5px 12px;border-radius:3px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,.09);color:#888;background:transparent;font-family:'Barlow',sans-serif}
+.mg-cat:hover{color:#ddd}
+.mg-cat.on{background:var(--B);color:#fff;border-color:var(--B)}
+.mg-items-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:14px}
+.mg-item{background:var(--G);border:1px solid rgba(255,255,255,.07);border-radius:7px;overflow:hidden}
+.mg-img{height:90px;position:relative;background:var(--G2);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.mg-img img{width:100%;height:100%;object-fit:cover}
+.mg-img-em{font-size:36px;line-height:1}
+.mg-img-overlay{position:absolute;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .15s;gap:8px}
+.mg-item:hover .mg-img-overlay{opacity:1}
+.mg-img-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:4px;padding:5px 9px;color:#fff;font-size:11px;cursor:pointer;font-family:'Barlow',sans-serif;font-weight:700;letter-spacing:.03em}
+.mg-body{padding:10px}
+.mg-name{font-size:13px;font-weight:600;color:#fff;margin-bottom:2px}
+.mg-price{font-size:13px;color:var(--Y);font-weight:700;font-family:'Bebas Neue',sans-serif;letter-spacing:.04em;margin-bottom:7px}
+.mg-actions{display:flex;gap:5px}
+.mg-edit{flex:1;padding:5px 8px;background:rgba(46,107,196,.18);color:var(--BL);border:1px solid rgba(46,107,196,.2);border-radius:4px;font-size:11px;cursor:pointer;font-family:'Barlow',sans-serif;font-weight:700;letter-spacing:.03em}
+.mg-del{padding:5px 8px;background:rgba(231,75,74,.12);color:#f09595;border:1px solid rgba(231,75,74,.16);border-radius:4px;font-size:11px;cursor:pointer;font-family:'Barlow',sans-serif;font-weight:700}
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:500;display:flex;align-items:center;justify-content:center;padding:16px}
+.modal{background:var(--G);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:22px;width:100%;max-width:420px;max-height:90vh;overflow-y:auto}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:18px;color:#fff;letter-spacing:.06em;margin-bottom:16px;line-height:1}
+.modal-title b{color:var(--Y);font-weight:400}
+.modal-img-preview{width:100%;height:110px;background:var(--G2);border-radius:6px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,.07)}
+.modal-img-preview img{width:100%;height:100%;object-fit:cover}
+.modal-img-placeholder{font-size:40px;line-height:1}
+.modal-img-btns{display:flex;gap:7px;margin-bottom:12px}
+.mibtn{flex:1;padding:8px;background:rgba(46,107,196,.16);color:var(--BL);border:1px solid rgba(46,107,196,.2);border-radius:5px;font-size:12px;cursor:pointer;font-family:'Barlow',sans-serif;font-weight:700;letter-spacing:.03em;text-align:center}
+.mibtn:hover{background:rgba(46,107,196,.26)}
+.modal-actions{display:flex;gap:7px;margin-top:14px}
+.mbsave{flex:1;padding:10px;background:var(--Y);color:#000;border:none;border-radius:5px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Bebas Neue',sans-serif;letter-spacing:.07em}
+.mbcancel{padding:10px 16px;background:transparent;color:#777;border:1px solid rgba(255,255,255,.09);border-radius:5px;font-size:13px;cursor:pointer;font-family:'Barlow',sans-serif;font-weight:600}
+/* USUARIOS */
+.ug{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:9px}
+.uc{background:var(--G);border:1px solid rgba(255,255,255,.06);border-radius:7px;padding:13px;display:flex;align-items:center;gap:10px}
+.ua{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;font-family:'Barlow',sans-serif;flex-shrink:0}
+.uname{font-size:13px;font-weight:600;color:#ccc}
+.uemail{font-size:11px;color:#555;margin-top:1px}
+.urb{font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;font-family:'Barlow',sans-serif;letter-spacing:.04em;margin-top:4px;display:inline-block}
+/* BTNS */
+.bprim{background:var(--Y);color:#000;border:none;border-radius:5px;padding:7px 16px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Bebas Neue',sans-serif;letter-spacing:.07em;white-space:nowrap}
+.bsec{background:transparent;color:var(--GR);border:1px solid rgba(39,184,101,.22);border-radius:5px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Barlow',sans-serif;white-space:nowrap}
+.loading{text-align:center;padding:20px;color:#555;font-size:12px;font-family:'Barlow',sans-serif}
+.empty{text-align:center;padding:20px;color:#444;font-size:12px;font-family:'Barlow',sans-serif}
+::-webkit-scrollbar{width:3px;height:3px}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
+.form-r2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+@media(max-width:600px){
+  /* Fix espacio negro */
+  html,body{min-height:100vh;min-height:-webkit-fill-available}
+  /* Login centrado sin tanto espacio */
+  .lw{align-items:flex-start;padding-top:40px;min-height:100vh;min-height:-webkit-fill-available}
+  .lcard{padding:24px 20px;border-radius:10px}
+  /* Nav compacta */
+  .pnav{padding:0 10px;gap:7px;height:48px}
+  .pntxt{font-size:15px}
+  .pnlogo{width:28px;height:28px}
+  .pnuser span{display:none}
+  .logoutb{padding:4px 9px;font-size:11px}
+  /* Tabs más grandes para tocar */
+  .stabs{-webkit-overflow-scrolling:touch;padding:0 6px}
+  .stb{padding:10px 11px;font-size:12px}
+  /* Main padding */
+  .pmain{padding:10px}
+  /* Stats 2x2 */
+  .s4{grid-template-columns:repeat(2,1fr)!important}
+  .scv{font-size:22px}
+  .scl{font-size:9px}
+  /* Pedidos una columna */
+  .pg2{grid-template-columns:1fr!important}
+  /* Cocina una columna */
+  .cg{grid-template-columns:1fr!important}
+  /* Ventas una columna */
+  .vl{grid-template-columns:1fr!important}
+  /* Reservas una columna */
+  .resg{grid-template-columns:1fr!important}
+  /* Gestor menu 2 columnas */
+  .mg-items-grid{grid-template-columns:repeat(2,1fr)!important}
+  /* Usuarios una columna */
+  .ug{grid-template-columns:1fr}
+  /* Formularios */
+  .form-r2{grid-template-columns:1fr 1fr}
+  #np-main>div:first-child{grid-template-columns:1fr 1fr!important}
+  /* Modal */
+  .modal{padding:16px;max-height:95vh;margin:8px}
+  /* Titulo */
+  .ttl{font-size:18px}
+  /* Botones header */
+  .bprim,.bsec{font-size:12px;padding:6px 11px}
+}
+.toast{position:fixed;bottom:20px;right:20px;background:var(--G);border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:10px 16px;font-size:13px;color:#fff;font-family:'Barlow',sans-serif;z-index:999;display:none;animation:fadeIn .2s}
+.toast.ok{border-left:3px solid var(--GR)}
+.toast.err{border-left:3px solid var(--RD)}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+</style>
+
+<div id="app">
+
+<!-- LOGIN -->
+<div id="lview" class="lw">
+  <div class="lbg"></div>
+  <div class="ck" style="position:absolute;inset:0;opacity:.05"></div>
+  <div class="lcard">
+    <div class="logo-row">
+      <div class="logo-c ck" style="display:flex;align-items:center;justify-content:center">
+        <svg viewBox="0 0 100 100" width="50" height="50"><circle cx="50" cy="50" r="50" fill="#2e6bc4"/><text x="50" y="39" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="22" fill="#fff" font-weight="900">BAR</text><text x="50" y="63" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="24" fill="#fff" font-weight="900">CLUB</text></svg>
+      </div>
+      <div><div class="lbrand">BAR<b>CLUB</b></div><div class="lsub">SISTEMA INTERNO</div></div>
+    </div>
+    <div class="ltitle">ACCESO EMPLEADOS</div>
+    <div class="lbadge"><div style="width:7px;height:7px;border-radius:50%;background:var(--Y);flex-shrink:0"></div><div>Panel exclusivo para personal autorizado</div></div>
+    <div class="fg"><label class="fl">Email</label><input class="fi" type="text" id="lu" placeholder="usuario@barclub.com" value="admin@barclub.com"></div>
+    <div class="fg"><label class="fl">Contrasena</label><input class="fi" type="password" id="lp" placeholder="••••••••" value="admin123"></div>
+    <div class="fg"><label class="fl">Rol</label>
+      <select class="fi" id="lr">
+        <option value="ADMIN">Admin</option>
+        <option value="CAJERO">Cajero</option>
+        <option value="COCINA">Cocina</option>
+      </select>
+    </div>
+    <button class="lbtn" id="lbtn" onclick="doLogin()">INGRESAR AL PANEL</button>
+    <div class="lerr" id="lerr">Usuario o contrasena incorrectos</div>
+    <div class="lhint">Demo: <b>admin@barclub.com</b> / <b>admin123</b><br>Proba con Cajero o Cocina para ver permisos</div>
+  </div>
+</div>
+
+<!-- PANEL -->
+<div id="pview" style="display:none">
+  <div class="pnav">
+    <div class="pnbrand">
+      <div class="pnlogo ck" style="display:flex;align-items:center;justify-content:center">
+        <svg viewBox="0 0 100 100" width="34" height="34"><circle cx="50" cy="50" r="50" fill="#2e6bc4"/><text x="50" y="39" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="22" fill="#fff" font-weight="900">BAR</text><text x="50" y="63" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="24" fill="#fff" font-weight="900">CLUB</text></svg>
+      </div>
+      <span class="pntxt">BAR<b>CLUB</b></span>
+      <span class="pnrol" id="pnrol">ADMIN</span>
+    </div>
+    <div class="pnright">
+      <div class="pnuser"><div class="udot"></div><span id="pnuser">admin</span></div>
+      <button class="logoutb" onclick="doLogout()">SALIR</button>
+    </div>
+  </div>
+  <div class="stabs" id="stabs"></div>
+  <div class="pmain">
+    <div class="s4">
+      <div class="sc y"><div class="scv" id="st-a">—</div><div class="scl">PEDIDOS ACTIVOS</div></div>
+      <div class="sc o"><div class="scv" id="st-p">—</div><div class="scl">EN PREPARACION</div></div>
+      <div class="sc g"><div class="scv" id="st-e">—</div><div class="scl">ENTREGADOS HOY</div></div>
+      <div class="sc"><div class="scv" id="st-v">—</div><div class="scl">VENTA DEL DIA</div></div>
+    </div>
+
+    <!-- PEDIDOS -->
+    <div class="sp on" id="sp-pedidos">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+        <div class="ttl">PEDIDOS <b>ACTIVOS</b></div>
+        <div style="display:flex;gap:8px">
+          <button class="bprim" onclick="cargarPedidos()" style="background:transparent;color:#666;border:1px solid rgba(255,255,255,.1);font-size:12px;padding:5px 12px">↻ ACTUALIZAR</button>
+          <button class="bprim" onclick="gSP('nuevo')">+ NUEVO PEDIDO</button>
+        </div>
+      </div>
+      <div class="pg2" id="ped-grid"><div class="loading">Cargando pedidos...</div></div>
+    </div>
+
+    <!-- NUEVO PEDIDO -->
+    <div class="sp" id="sp-nuevo">
+      <div class="ttl" style="margin-bottom:12px">NUEVO <b>PEDIDO</b></div>
+      <div style="display:grid;grid-template-columns:1fr;gap:14px" id="np-main">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;background:var(--G);border:1px solid rgba(255,255,255,.07);border-radius:7px;padding:14px">
+          <div class="fg"><label class="fl">Cliente</label><input class="fi" type="text" placeholder="Nombre (opcional)" id="np-cli" style="padding:8px 10px;font-size:13px"></div>
+          <div class="fg"><label class="fl">Telefono</label><input class="fi" type="tel" placeholder="3447-000000" id="np-tel" style="padding:8px 10px;font-size:13px"></div>
+          <div class="fg"><label class="fl">Tipo</label><select class="fi" id="np-tipo" onchange="npTC()" style="padding:8px 10px;font-size:13px"><option value="LOCAL">Local</option><option value="RETIRO">Retiro</option><option value="DELIVERY">Delivery</option></select></div>
+          <div class="fg"><label class="fl">Metodo de Pago</label><select class="fi" id="np-pago" style="padding:8px 10px;font-size:13px"><option value="EFECTIVO">Efectivo</option><option value="TARJETA">Tarjeta</option><option value="TRANSFERENCIA">Transferencia</option></select></div>
+          <div class="fg" id="np-dir" style="display:none;grid-column:span 2"><label class="fl">Direccion</label><input class="fi" type="text" id="np-direccion" placeholder="Calle, numero..." style="padding:8px 10px;font-size:13px"></div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:#666;font-weight:700;letter-spacing:.06em;margin-bottom:8px;font-family:'Barlow',sans-serif">SELECCIONAR PRODUCTOS</div>
+          <div class="mg-cats" id="np-cats"></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:7px;max-height:240px;overflow-y:auto;margin-bottom:12px" id="np-prods"></div>
+          <div style="background:var(--G);border:1px solid rgba(255,255,255,.07);border-radius:7px;padding:14px">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:15px;color:#fff;letter-spacing:.06em;margin-bottom:11px;display:flex;justify-content:space-between;align-items:center">COMANDA <span style="font-size:11px;color:#555;font-family:'Barlow',sans-serif;font-weight:400" id="np-cnt">0 items</span></div>
+            <div style="max-height:130px;overflow-y:auto;margin-bottom:9px" id="np-cl"><div style="text-align:center;padding:14px;color:#444;font-size:11px">Selecciona productos</div></div>
+            <div style="display:flex;justify-content:space-between;font-weight:700;font-size:14px;padding:7px 0;border-top:1px solid rgba(255,255,255,.07);font-family:'Bebas Neue',sans-serif;letter-spacing:.04em"><span>TOTAL</span><span id="np-tot" style="color:var(--Y)">$0</span></div>
+            <button style="width:100%;padding:10px;background:var(--Y);color:#000;border:none;border-radius:5px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Bebas Neue',sans-serif;letter-spacing:.08em;margin-top:7px" onclick="confirmarNP()">REGISTRAR PEDIDO</button>
+          </div>
+        </div>
+      </div>
+      <div id="np-ok" style="display:none;text-align:center;padding:28px">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--GR);letter-spacing:.06em;margin-bottom:7px">PEDIDO REGISTRADO ✓</div>
+        <div style="font-size:12px;color:#666;margin-bottom:13px">Enviado a cocina como PENDIENTE.</div>
+        <button style="padding:9px 22px;background:var(--Y);color:#000;border:none;border-radius:5px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Bebas Neue',sans-serif;letter-spacing:.07em" onclick="resetNP()">NUEVO PEDIDO</button>
+      </div>
+    </div>
+
+    <!-- COCINA -->
+    <div class="sp" id="sp-cocina">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+        <div class="ttl">PANEL DE <b>COCINA</b></div>
+        <button class="bprim" onclick="cargarCocina()" style="background:transparent;color:#666;border:1px solid rgba(255,255,255,.1);font-size:12px;padding:5px 12px">↻ ACTUALIZAR</button>
+      </div>
+      <div class="cg">
+        <div class="cc"><div class="cch chp"><span>PENDIENTE</span><span class="ccnt" id="cc-p">0</span></div><div class="cb" id="cb-p"></div></div>
+        <div class="cc"><div class="cch chpr"><span>EN PREPARACION</span><span class="ccnt" id="cc-pr">0</span></div><div class="cb" id="cb-pr"></div></div>
+        <div class="cc"><div class="cch chl"><span>LISTO</span><span class="ccnt" id="cc-l">0</span></div><div class="cb" id="cb-l"></div></div>
+      </div>
+    </div>
+
+    <!-- VENTAS -->
+    <div class="sp" id="sp-ventas">
+      <div class="ttl" style="margin-bottom:12px">VENTAS <b>DEL DIA</b></div>
+      <div class="s4" style="margin-bottom:12px">
+        <div class="sc g"><div class="scv" id="v-total">—</div><div class="scl">TOTAL</div></div>
+        <div class="sc"><div class="scv" id="v-cant">—</div><div class="scl">VENTAS HOY</div></div>
+        <div class="sc y"><div class="scv" id="v-prom">—</div><div class="scl">TICKET PROMEDIO</div></div>
+        <div class="sc o"><div class="scv" id="v-efec">—</div><div class="scl">EN EFECTIVO</div></div>
+      </div>
+      <div class="vl">
+        <div class="vtbl"><div class="vtblh">HISTORIAL DE VENTAS</div><div id="vlist"><div class="loading">Cargando ventas...</div></div></div>
+        <div class="rp">
+          <div class="rpt">RESUMEN</div>
+          <div class="rr"><span>Efectivo</span><span id="r-efec">—</span></div>
+          <div class="rr"><span>Tarjeta</span><span id="r-tarj">—</span></div>
+          <div class="rr"><span>Transferencia</span><span id="r-tran">—</span></div>
+          <div class="rrtot"><span>TOTAL</span><span id="r-tot">—</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESERVAS -->
+    <div class="sp" id="sp-reservas">
+      <div class="ttl" style="margin-bottom:12px">RESERVAS <b>DE HOY</b></div>
+      <div class="resg">
+        <div class="rlist">
+          <div class="rlh"><span class="rlht">Reservas del dia</span><span style="font-size:11px;color:#555;font-family:'Barlow',sans-serif" id="res-cnt">cargando...</span></div>
+          <div id="rlist-b"><div class="loading">Cargando reservas...</div></div>
+        </div>
+        <div style="background:var(--G);border:1px solid rgba(255,255,255,.06);border-radius:7px;padding:14px">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:14px;color:#fff;letter-spacing:.06em;margin-bottom:11px">NUEVA RESERVA</div>
+          <div class="fg"><label class="fl">Nombre</label><input class="fi" type="text" id="res-nombre" placeholder="Nombre del cliente" style="padding:8px 10px;font-size:13px"></div>
+          <div class="form-r2">
+            <div class="fg"><label class="fl">Fecha</label><input class="fi" type="date" id="res-fecha" style="padding:8px 10px;font-size:13px"></div>
+            <div class="fg"><label class="fl">Hora</label><input class="fi" type="time" id="res-hora" value="20:00" style="padding:8px 10px;font-size:13px"></div>
+          </div>
+          <div class="fg"><label class="fl">Personas</label><input class="fi" type="number" id="res-pers" min="1" max="20" value="2" style="padding:8px 10px;font-size:13px"></div>
+          <div class="fg"><label class="fl">Telefono</label><input class="fi" type="tel" id="res-tel" placeholder="3447-000000" style="padding:8px 10px;font-size:13px"></div>
+          <button style="width:100%;padding:9px;background:var(--Y);color:#000;border:none;border-radius:5px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Bebas Neue',sans-serif;letter-spacing:.07em" onclick="guardarReserva()">REGISTRAR</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- GESTOR MENU -->
+    <div class="sp" id="sp-menu">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+        <div class="ttl">GESTOR DE <b>MENU</b></div>
+        <button class="bsec" onclick="abrirModal(null)">+ AGREGAR PLATO</button>
+      </div>
+      <div class="mg-cats" id="mg-cats"></div>
+      <div class="mg-items-grid" id="mg-items"><div class="loading">Cargando productos...</div></div>
+    </div>
+
+    <!-- USUARIOS (solo ADMIN) -->
+    <div class="sp" id="sp-usuarios">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+        <div class="ttl">USUARIOS <b>DEL SISTEMA</b></div>
+      </div>
+      <div class="ug" id="usuarios-grid"><div class="loading">Cargando usuarios...</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PLATO -->
+<div class="modal-bg" id="modal-bg" style="display:none">
+  <div class="modal">
+    <div class="modal-title" id="modal-ttl">AGREGAR <b>PLATO</b></div>
+    <div class="modal-img-preview" id="modal-img-prev">
+      <span class="modal-img-placeholder" id="modal-img-em">&#x1F374;</span>
+    </div>
+    <div class="modal-img-btns">
+      <label class="mibtn" style="cursor:pointer">
+        SUBIR FOTO
+        <input type="file" accept="image/*" style="display:none" onchange="handleImgUpload(this)">
+      </label>
+      <button class="mibtn" onclick="document.getElementById('modal-url-wrap').style.display=document.getElementById('modal-url-wrap').style.display==='none'?'block':'none'">URL DE IMAGEN</button>
+    </div>
+    <div id="modal-url-wrap" style="display:none;margin-bottom:10px">
+      <div class="fg"><label class="fl">URL de imagen</label><input class="fi" type="text" id="modal-url" placeholder="https://..." style="padding:8px 10px;font-size:13px" oninput="prevUrl(this.value)"></div>
+    </div>
+    <div class="fg"><label class="fl">Nombre del plato</label><input class="fi" type="text" id="modal-name" placeholder="Ej: Milanesa napolitana" style="padding:8px 10px;font-size:13px"></div>
+    <div class="form-r2">
+      <div class="fg"><label class="fl">Precio</label><input class="fi" type="number" id="modal-price" placeholder="0" style="padding:8px 10px;font-size:13px"></div>
+      <div class="fg"><label class="fl">Categoria</label>
+        <select class="fi" id="modal-cat" style="padding:8px 10px;font-size:13px"></select>
+      </div>
+    </div>
+    <div class="fg"><label class="fl">Descripcion (opcional)</label><input class="fi" type="text" id="modal-desc" placeholder="Descripcion breve" style="padding:8px 10px;font-size:13px"></div>
+    <div class="fg" style="display:flex;align-items:center;gap:9px">
+      <input type="checkbox" id="modal-activo" checked style="width:16px;height:16px;cursor:pointer">
+      <label for="modal-activo" style="font-size:13px;color:#ccc;cursor:pointer;font-family:'Barlow',sans-serif">Plato activo (visible en el menu)</label>
+    </div>
+    <div class="modal-actions">
+      <button class="mbsave" onclick="guardarPlato()">GUARDAR</button>
+      <button class="mbcancel" onclick="cerrarModal()">CANCELAR</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+</div>
+
+<script>
+const API = 'http://192.168.100.7:8080/api';
+const TABS_BY_ROL = {ADMIN:['pedidos','nuevo','cocina','ventas','reservas','menu','usuarios'],CAJERO:['pedidos','nuevo','ventas','reservas'],COCINA:['cocina']};
+const TAB_LABELS = {pedidos:'Pedidos activos',nuevo:'Nuevo pedido',cocina:'Cocina',ventas:'Ventas',reservas:'Reservas',menu:'Gestor de menu',usuarios:'Usuarios'};
+const EMOJIS = {Empanadas:'&#x1F95F;',Pizzas:'&#x1F355;',Sandwiches:'&#x1F96A;',Minutas:'&#x1F37D;&#xFE0F;',Papas:'&#x1F35F;',Parrilla:'&#x1F525;',Pastas:'&#x1F35D;',Ensaladas:'&#x1F957;',Vegetariano:'&#x1F33F;',Vinos:'&#x1F377;',Cervezas:'&#x1F37A;',Gaseosas:'&#x1F964;',Postres:'&#x1F36E;'};
+
+let currentRol = 'ADMIN';
+let currentUser = '';
+let todosProductos = [];
+let mgCat = '';
+let editingId = null;
+let modalImg = '';
+let npCart = {};
+let npTotal = 0;
+
+// ===================== TOAST =====================
+function toast(msg, tipo='ok') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + tipo;
+  t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 3000);
+}
+
+// ===================== API =====================
+async function api(path, method='GET', body=null) {
+  const opts = {method, headers:{'Content-Type':'application/json'}};
+  if (body) opts.body = JSON.stringify(body);
+  const res = await fetch(API + path, opts);
+  if (!res.ok) throw new Error('Error ' + res.status);
+  if (res.status === 204) return null;
+  return res.json();
+}
+
+// ===================== LOGIN =====================
+async function doLogin() {
+  const u = document.getElementById('lu').value.trim();
+  const p = document.getElementById('lp').value;
+  const r = document.getElementById('lr').value;
+  const btn = document.getElementById('lbtn');
+  const err = document.getElementById('lerr');
+  err.style.display = 'none';
+  if (!u || p.length < 4) { err.style.display = 'block'; return; }
+  btn.disabled = true; btn.textContent = 'INGRESANDO...';
+  try {
+    // Verificar que el backend esta disponible
+    await api('/productos');
+    currentRol = r;
+    currentUser = u;
+    document.getElementById('lview').style.display = 'none';
+    document.getElementById('pview').style.display = 'block';
+    document.getElementById('pnuser').textContent = u.split('@')[0];
+    document.getElementById('pnrol').textContent = r;
+    document.getElementById('pnrol').className = 'pnrol ' + (r==='ADMIN'?'ra':r==='CAJERO'?'rc':'rco');
+    buildTabs();
+    gSP(TABS_BY_ROL[r][0]);
+    cargarTodo();
+  } catch(e) {
+    err.textContent = 'No se puede conectar al servidor. Verificá que el backend esté corriendo.';
+    err.style.display = 'block';
+  }
+  btn.disabled = false; btn.textContent = 'INGRESAR AL PANEL';
+}
+
+function doLogout() {
+  document.getElementById('pview').style.display = 'none';
+  document.getElementById('lview').style.display = 'flex';
+}
+
+// ===================== TABS =====================
+function buildTabs() {
+  const t = document.getElementById('stabs'); t.innerHTML = '';
+  TABS_BY_ROL[currentRol].forEach(k => {
+    const b = document.createElement('button'); b.className = 'stb'; b.textContent = TAB_LABELS[k]; b.id = 'stb-' + k;
+    b.onclick = () => gSP(k); t.appendChild(b);
+  });
+}
+function gSP(name) {
+  document.querySelectorAll('.sp').forEach(s => s.classList.remove('on'));
+  document.querySelectorAll('.stb').forEach(b => b.classList.remove('on'));
+  const s = document.getElementById('sp-' + name);
+  const b = document.getElementById('stb-' + name);
+  if (s) s.classList.add('on');
+  if (b) b.classList.add('on');
+  if (name === 'pedidos') cargarPedidos();
+  if (name === 'cocina') cargarCocina();
+  if (name === 'ventas') cargarVentas();
+  if (name === 'reservas') cargarReservas();
+  if (name === 'menu') cargarMenu();
+  if (name === 'usuarios') cargarUsuarios();
+}
+
+async function cargarTodo() {
+  await cargarProductos();
+  cargarPedidos();
+  cargarVentaResumen();
+}
+
+// ===================== STATS =====================
+async function cargarVentaResumen() {
+  try {
+    const total = await api('/ventas/total');
+    document.getElementById('st-v').textContent = '$' + (total||0).toLocaleString('es-AR');
+  } catch(e) {}
+}
+
+// ===================== PEDIDOS =====================
+async function cargarPedidos() {
+  const grid = document.getElementById('ped-grid');
+  grid.innerHTML = '<div class="loading">Cargando pedidos...</div>';
+  try {
+    const activos = await api('/pedidos/activos');
+    const todos = await api('/pedidos');
+    document.getElementById('st-a').textContent = activos.length;
+    document.getElementById('st-p').textContent = activos.filter(p => p.estado === 'PREPARACION').length;
+    document.getElementById('st-e').textContent = todos.filter(p => p.estado === 'ENTREGADO').length;
+    if (!activos.length) { grid.innerHTML = '<div class="empty">No hay pedidos activos</div>'; return; }
+    grid.innerHTML = activos.map(p => renderPedCard(p)).join('');
+  } catch(e) {
+    grid.innerHTML = '<div class="empty" style="color:var(--RD)">Error al cargar pedidos</div>';
+  }
+}
+
+function renderPedCard(p) {
+  const items = (p.detalles||[]).map(d => `${d.cantidad}x ${d.nombreProducto||d.producto?.nombre||'Producto'}`).join(' · ') || '—';
+  const hora = p.hora ? p.hora.substring(0,5) : '';
+  const horarioEntrega = p.horarioEntrega ? p.horarioEntrega.substring(0,5) : '';
+  const cli = p.nombreCliente || (p.cliente ? p.cliente.nombre : 'Mesa');
+  const tel = p.telefonoCliente || '';
+  const dir = p.direccionEntrega || '';
+  const est = p.estado;
+  const cancelable = est === 'PENDIENTE';
+  const tipos = {LOCAL:'tl',RETIRO:'tr',DELIVERY:'td'};
+  const ests = {PENDIENTE:'ep',PREPARACION:'epr',LISTO:'el',ENTREGADO:'ee'};
+  const next = {PENDIENTE:'PREPARACION',PREPARACION:'LISTO',LISTO:'ENTREGADO'};
+  return `<div class="pdc">
+    <div class="pdh"><span class="pdnum">#${p.id}</span><span class="tbdg ${tipos[p.tipo]||'tl'}">${p.tipo}</span></div>
+    <div class="pdcli">${cli}${tel ? ` · 📞 ${tel}` : ''}</div>
+    ${hora ? `<div class="ctime">Ingresó: ${hora}${horarioEntrega ? ` · Entrega: ${horarioEntrega}` : ''}</div>` : ''}
+    ${dir && p.tipo === 'DELIVERY' ? `<div class="ctime" style="color:var(--OR)">📍 ${dir}</div>` : ''}
+    <div class="pditems">${items}</div>
+    <div class="pdf">
+      <div>
+        <span class="pdtot">$${(p.total||0).toLocaleString('es-AR')}</span>
+        ${cancelable ? `<button class="bcancel" onclick="cancelarPed(${p.id})">CANCELAR PEDIDO</button>` : `<div class="ctime" style="color:var(--RD)">No cancelable</div>`}
+      </div>
+      ${next[est] ? `<button class="estb ${ests[est]}" onclick="avEst(${p.id},'${next[est]}')">${est === 'PENDIENTE' ? 'PENDIENTE' : est === 'PREPARACION' ? 'EN PREP.' : 'LISTO'}</button>` : ''}
+    </div>
+  </div>`;
+}
+
+async function avEst(id, nuevoEstado) {
+  try {
+    await api('/pedidos/' + id + '/estado?estado=' + nuevoEstado, 'PATCH');
+    toast('Estado actualizado a ' + nuevoEstado);
+    cargarPedidos();
+    cargarCocina();
+  } catch(e) { toast('Error al actualizar estado', 'err'); }
+}
+
+async function cancelarPed(id) {
+  if (!confirm('Cancelar pedido #' + id + '?')) return;
+  try {
+    await api('/pedidos/' + id + '/cancelar', 'PATCH');
+    toast('Pedido #' + id + ' cancelado');
+    cargarPedidos();
+  } catch(e) { toast('Error al cancelar pedido', 'err'); }
+}
+
+// ===================== NUEVO PEDIDO =====================
+async function cargarProductos() {
+  try {
+    todosProductos = await api('/productos/activos');
+    buildNpMenu();
+  } catch(e) { console.error('Error cargando productos', e); }
+}
+
+function buildNpMenu() {
+  const cats = [...new Set(todosProductos.map(p => p.categoria))];
+  const cr = document.getElementById('np-cats'); cr.innerHTML = '';
+  cats.forEach((cat, i) => {
+    const b = document.createElement('button'); b.className = 'mg-cat' + (i===0?' on':''); b.textContent = cat;
+    b.onclick = () => { document.querySelectorAll('#np-cats .mg-cat').forEach(x => x.classList.remove('on')); b.classList.add('on'); renderNpProds(cat); };
+    cr.appendChild(b);
+  });
+  if (cats.length) renderNpProds(cats[0]);
+}
+
+function renderNpProds(cat) {
+  const items = todosProductos.filter(p => p.categoria === cat && p.activo);
+  document.getElementById('np-prods').innerHTML = items.map(i => `
+    <div style="background:var(--G2);border:1px solid rgba(255,255,255,.06);border-radius:5px;padding:7px 8px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:5px" onclick="addNp(${i.id},'${i.nombre.replace(/'/g,'').replace(/"/g,'')}',${i.precio})">
+      <span style="font-size:11px;color:#ccc;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${i.nombre}</span>
+      <div style="display:flex;align-items:center;gap:4px;flex-shrink:0">
+        <span style="font-size:11px;color:var(--Y);font-weight:700;font-family:'Bebas Neue',sans-serif">$${i.precio.toLocaleString('es-AR')}</span>
+        <div style="width:18px;height:18px;background:var(--B);border-radius:3px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px">+</div>
+      </div>
+    </div>`).join('');
+}
+
+function addNp(id, name, price) {
+  if (!npCart[id]) npCart[id] = {id, name, price, qty:0};
+  npCart[id].qty++; npTotal += price; renderNpCart();
+}
+function chNpQ(id, d) {
+  if (!npCart[id]) return;
+  npCart[id].qty += d; npTotal += d * npCart[id].price;
+  if (npCart[id].qty <= 0) delete npCart[id];
+  renderNpCart();
+}
+function renderNpCart() {
+  const d = document.getElementById('np-cl');
+  const cnt = Object.values(npCart).reduce((a,c) => a + c.qty, 0);
+  document.getElementById('np-cnt').textContent = cnt + ' item' + (cnt !== 1 ? 's' : '');
+  const e = Object.entries(npCart);
+  if (!e.length) { d.innerHTML = '<div style="text-align:center;padding:12px;color:#444;font-size:11px">Selecciona productos</div>'; document.getElementById('np-tot').textContent = '$0'; return; }
+  d.innerHTML = e.map(([id,{name,price,qty}]) => `<div style="display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05)">
+    <span style="flex:1;font-size:11px;color:#bbb;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${name}</span>
+    <div style="display:flex;align-items:center;gap:3px;flex-shrink:0">
+      <button style="width:18px;height:18px;border-radius:3px;border:1px solid rgba(255,255,255,.1);background:transparent;color:#aaa;font-size:12px;cursor:pointer" onclick="chNpQ(${id},-1)">−</button>
+      <span style="font-size:11px;color:#fff;min-width:14px;text-align:center;font-weight:600">${qty}</span>
+      <button style="width:18px;height:18px;border-radius:3px;border:1px solid rgba(255,255,255,.1);background:transparent;color:#aaa;font-size:12px;cursor:pointer" onclick="chNpQ(${id},1)">+</button>
+    </div>
+    <span style="font-size:11px;color:var(--Y);font-weight:700;font-family:'Bebas Neue',sans-serif;white-space:nowrap">$${(price*qty).toLocaleString('es-AR')}</span>
+  </div>`).join('');
+  document.getElementById('np-tot').textContent = '$' + npTotal.toLocaleString('es-AR');
+}
+
+async function confirmarNP() {
+  if (!Object.keys(npCart).length) { toast('Agrega al menos un producto', 'err'); return; }
+  const cli = document.getElementById('np-cli').value || null;
+  const tipo = document.getElementById('np-tipo').value;
+  const pago = document.getElementById('np-pago').value;
+  const dir = document.getElementById('np-direccion').value || null;
+  const detalles = Object.values(npCart).map(c => ({productoId: c.id, cantidad: c.qty}));
+  try {
+    const ped = await api('/pedidos', 'POST', {
+      usuarioId: 1,
+      nombreCliente: cli,
+      tipo, direccionEntrega: dir,
+      detalles
+    });
+    // Registrar venta - si falla no importa, el pedido ya se creó
+    try { await api('/ventas', 'POST', {pedidoId: ped.id, metodoPago: pago}); } catch(e) {}
+    document.getElementById('np-main').style.display = 'none';
+    document.getElementById('np-ok').style.display = 'block';
+    toast('Pedido #' + ped.id + ' registrado correctamente');
+    cargarPedidos();
+  } catch(e) { toast('Error al registrar el pedido', 'err'); }
+}
+
+function resetNP() {
+  npCart = {}; npTotal = 0; renderNpCart();
+  document.getElementById('np-main').style.display = '';
+  document.getElementById('np-ok').style.display = 'none';
+  document.getElementById('np-cli').value = '';
+  document.getElementById('np-direccion').value = '';
+}
+function npTC() { document.getElementById('np-dir').style.display = document.getElementById('np-tipo').value === 'DELIVERY' ? 'block' : 'none'; }
+
+// ===================== COCINA =====================
+async function cargarCocina() {
+  try {
+    const peds = await api('/pedidos/activos');
+    const COLS = {PENDIENTE:{id:'cb-p',cnt:'cc-p'},PREPARACION:{id:'cb-pr',cnt:'cc-pr'},LISTO:{id:'cb-l',cnt:'cc-l'}};
+    Object.values(COLS).forEach(c => { document.getElementById(c.id).innerHTML = ''; document.getElementById(c.cnt).textContent = 0; });
+    const cts = {PENDIENTE:0, PREPARACION:0, LISTO:0};
+    peds.filter(p => p.estado !== 'ENTREGADO' && p.estado !== 'CANCELADO').forEach(p => {
+      if (!COLS[p.estado]) return;
+      cts[p.estado]++;
+      const items = (p.detalles||[]).map(d => `${d.cantidad}x ${d.nombreProducto||'Producto'}`).join(', ') || '—';
+      const cli = p.nombreCliente || 'Mesa';
+      const hora = p.hora ? p.hora.substring(0,5) : '';
+      const next = {PENDIENTE:'PREPARACION',PREPARACION:'LISTO',LISTO:'ENTREGADO'};
+      const d = document.createElement('div');
+      d.className = 'ct ' + (p.estado==='PENDIENTE'?'p':p.estado==='PREPARACION'?'pr':'l');
+      d.innerHTML = `<div class="ctnum">#${p.id} — ${cli}</div><div class="ctdet">${items}</div><div class="cthora">${hora} · ${p.tipo}</div>
+        <button class="cav" onclick="avEst(${p.id},'${next[p.estado]}')">→ PASAR A ${next[p.estado]}</button>`;
+      document.getElementById(COLS[p.estado].id).appendChild(d);
+    });
+    Object.entries(cts).forEach(([k,v]) => document.getElementById(COLS[k].cnt).textContent = v);
+  } catch(e) { console.error('Error cocina', e); }
+}
+
+// ===================== VENTAS =====================
+async function cargarVentas() {
+  document.getElementById('vlist').innerHTML = '<div class="loading">Cargando...</div>';
+  try {
+    const hoy = new Date().toISOString().split('T')[0];
+    // Intentar /ventas/hoy, si falla usar /ventas/fecha?fecha=hoy
+    let ventas = [];
+    let totalDia = 0;
+    try {
+      ventas = await api('/ventas/hoy');
+    } catch(e) {
+      ventas = await api('/ventas/fecha?fecha=' + hoy);
+    }
+    try {
+      totalDia = await api('/ventas/total');
+    } catch(e) {
+      totalDia = ventas.reduce((a,v) => a + (v.total||0), 0);
+    }
+    const efec = ventas.filter(v => v.metodoPago === 'EFECTIVO').reduce((a,v) => a + v.total, 0);
+    const tarj = ventas.filter(v => v.metodoPago === 'TARJETA').reduce((a,v) => a + v.total, 0);
+    const tran = ventas.filter(v => v.metodoPago === 'TRANSFERENCIA').reduce((a,v) => a + v.total, 0);
+    document.getElementById('v-total').textContent = '$' + (totalDia||0).toLocaleString('es-AR');
+    document.getElementById('v-cant').textContent = ventas.length;
+    document.getElementById('v-prom').textContent = ventas.length ? '$' + Math.round((totalDia||0)/ventas.length).toLocaleString('es-AR') : '$0';
+    document.getElementById('v-efec').textContent = ventas.filter(v => v.metodoPago === 'EFECTIVO').length;
+    document.getElementById('r-efec').textContent = '$' + efec.toLocaleString('es-AR');
+    document.getElementById('r-tarj').textContent = '$' + tarj.toLocaleString('es-AR');
+    document.getElementById('r-tran').textContent = '$' + tran.toLocaleString('es-AR');
+    document.getElementById('r-tot').textContent = '$' + (totalDia||0).toLocaleString('es-AR');
+    document.getElementById('st-v').textContent = '$' + (totalDia||0).toLocaleString('es-AR');
+    if (!ventas.length) { document.getElementById('vlist').innerHTML = '<div class="empty">Sin ventas hoy</div>'; return; }
+    const mpClass = {EFECTIVO:'me',TARJETA:'mt',TRANSFERENCIA:'mtr'};
+    document.getElementById('vlist').innerHTML = [...ventas].reverse().map(v => {
+      const cli = v.pedido?.nombreCliente || v.pedido?.cliente?.nombre || 'Cliente';
+      const hora = v.hora ? v.hora.substring(0,5) : '';
+      return `<div class="vrow"><span class="vnum">#${v.id}</span><div class="vi"><div class="vcli">${cli}</div><div class="vhora">${hora}</div></div><span class="vmp ${mpClass[v.metodoPago]||'me'}">${v.metodoPago}</span><span class="vmonto">$${(v.total||0).toLocaleString('es-AR')}</span></div>`;
+    }).join('');
+  } catch(e) { document.getElementById('vlist').innerHTML = '<div class="empty" style="color:var(--RD)">Error al cargar ventas</div>'; }
+}
+
+// ===================== RESERVAS =====================
+async function cargarReservas() {
+  document.getElementById('rlist-b').innerHTML = '<div class="loading">Cargando...</div>';
+  document.getElementById('res-fecha').value = new Date().toISOString().split('T')[0];
+  try {
+    const res = await api('/reservas/hoy');
+    document.getElementById('res-cnt').textContent = res.length + ' reservas';
+    if (!res.length) { document.getElementById('rlist-b').innerHTML = '<div class="empty">No hay reservas</div>'; return; }
+    document.getElementById('rlist-b').innerHTML = res.map(r => {
+      const ini = r.nombreCliente.slice(0,2).toUpperCase();
+      const hora = r.hora ? r.hora.substring(0,5) : '';
+      return `<div class="ri">
+        <div class="riav">${ini}</div>
+        <div class="riinfo"><div class="rinombre">${r.nombreCliente}</div><div class="rimeta">${r.cantidadPersonas} personas · ${r.fecha}</div></div>
+        <div class="riright"><div class="rihora">${hora}</div><div class="ripax">${r.cantidadPersonas} pax</div><button class="ricancel" onclick="cancelarRes(${r.id})">CANCELAR</button></div>
+      </div>`;
+    }).join('');
+  } catch(e) { document.getElementById('rlist-b').innerHTML = '<div class="empty" style="color:var(--RD)">Error al cargar reservas</div>'; }
+}
+
+async function guardarReserva() {
+  const nombre = document.getElementById('res-nombre').value.trim();
+  const fecha = document.getElementById('res-fecha').value;
+  const hora = document.getElementById('res-hora').value + ':00';
+  const personas = parseInt(document.getElementById('res-pers').value);
+  const tel = document.getElementById('res-tel').value;
+  if (!nombre || !fecha) { toast('Completa nombre y fecha', 'err'); return; }
+  try {
+    await api('/reservas', 'POST', {nombreCliente: nombre, fecha, hora, cantidadPersonas: personas, telefono: tel});
+    toast('Reserva de ' + nombre + ' registrada');
+    document.getElementById('res-nombre').value = '';
+    document.getElementById('res-tel').value = '';
+    cargarReservas();
+  } catch(e) { toast('Error al guardar reserva', 'err'); }
+}
+
+async function cancelarRes(id) {
+  if (!confirm('Cancelar esta reserva?')) return;
+  try {
+    await api('/reservas/' + id + '/cancelar', 'PATCH');
+    toast('Reserva cancelada');
+    cargarReservas();
+  } catch(e) { toast('Error al cancelar reserva', 'err'); }
+}
+
+// ===================== GESTOR MENU =====================
+async function cargarMenu() {
+  document.getElementById('mg-items').innerHTML = '<div class="loading">Cargando productos...</div>';
+  try {
+    const prods = await api('/productos');
+    todosProductos = prods;
+    const cats = [...new Set(prods.map(p => p.categoria))];
+    if (!mgCat || !cats.includes(mgCat)) mgCat = cats[0];
+    // Categorias
+    const cr = document.getElementById('mg-cats'); cr.innerHTML = '';
+    // Llenar select modal
+    const sel = document.getElementById('modal-cat'); sel.innerHTML = '';
+    cats.forEach(cat => {
+      const b = document.createElement('button'); b.className = 'mg-cat' + (cat===mgCat?' on':''); b.textContent = cat;
+      b.onclick = () => { document.querySelectorAll('.mg-cat').forEach(x => x.classList.remove('on')); b.classList.add('on'); mgCat = cat; renderMgItems(prods); };
+      cr.appendChild(b);
+      const opt = document.createElement('option'); opt.value = cat; opt.textContent = cat; sel.appendChild(opt);
+    });
+    renderMgItems(prods);
+  } catch(e) { document.getElementById('mg-items').innerHTML = '<div class="empty" style="color:var(--RD)">Error al cargar productos</div>'; }
+}
+
+function renderMgItems(prods) {
+  const items = (prods || todosProductos).filter(p => p.categoria === mgCat);
+  const em = EMOJIS[mgCat] || '&#x1F374;';
+  document.getElementById('mg-items').innerHTML = items.map(p => `
+    <div class="mg-item" style="${!p.activo?'opacity:.45':''}">
+      <div class="mg-img">
+        ${p.imagenUrl ? `<img src="${p.imagenUrl}" alt="${p.nombre}" onerror="this.parentElement.innerHTML='<span class=\\'mg-img-em\\'>${em}</span>'">` : `<span class="mg-img-em">${em}</span>`}
+        <div class="mg-img-overlay"><button class="mg-img-btn" onclick="event.stopPropagation();abrirModal(${p.id})">CAMBIAR FOTO</button></div>
+      </div>
+      <div class="mg-body">
+        <div class="mg-name">${p.nombre}</div>
+        <div class="mg-price">$${(p.precio||0).toLocaleString('es-AR')}</div>
+        <div class="mg-actions">
+          <button class="mg-edit" onclick="abrirModal(${p.id})">EDITAR</button>
+          <button class="mg-del" onclick="eliminarProducto(${p.id},'${p.nombre.replace(/'/g,'')}')">BORRAR</button>
+        </div>
+      </div>
+    </div>`).join('') + `
+    <div style="background:var(--G);border:1px dashed rgba(255,255,255,.1);border-radius:7px;display:flex;align-items:center;justify-content:center;cursor:pointer;min-height:150px;color:#555;flex-direction:column;gap:8px;font-size:12px;font-family:'Barlow',sans-serif" onclick="abrirModal(null)">
+      <div style="font-size:28px;color:#444">+</div><span>Agregar plato</span>
+    </div>`;
+}
+
+async function eliminarProducto(id, nombre) {
+  if (!confirm('Eliminar "' + nombre + '"?')) return;
+  try {
+    await api('/productos/' + id, 'DELETE');
+    toast(nombre + ' eliminado');
+    cargarMenu();
+  } catch(e) { toast('Error al eliminar producto', 'err'); }
+}
+
+function abrirModal(id) {
+  editingId = id; modalImg = '';
+  document.getElementById('modal-url').value = '';
+  document.getElementById('modal-url-wrap').style.display = 'none';
+  if (id === null) {
+    document.getElementById('modal-ttl').innerHTML = 'AGREGAR <b>PLATO</b>';
+    document.getElementById('modal-name').value = '';
+    document.getElementById('modal-price').value = '';
+    document.getElementById('modal-desc').value = '';
+    document.getElementById('modal-activo').checked = true;
+    document.getElementById('modal-cat').value = mgCat;
+    document.getElementById('modal-img-prev').innerHTML = `<span class="modal-img-placeholder">${EMOJIS[mgCat]||'&#x1F374;'}</span>`;
+  } else {
+    const p = todosProductos.find(x => x.id === id);
+    if (!p) return;
+    document.getElementById('modal-ttl').innerHTML = 'EDITAR <b>PLATO</b>';
+    document.getElementById('modal-name').value = p.nombre;
+    document.getElementById('modal-price').value = p.precio;
+    document.getElementById('modal-desc').value = p.descripcion || '';
+    document.getElementById('modal-activo').checked = p.activo;
+    document.getElementById('modal-cat').value = p.categoria;
+    modalImg = p.imagenUrl || '';
+    document.getElementById('modal-img-prev').innerHTML = p.imagenUrl ? `<img src="${p.imagenUrl}" alt="">` : `<span class="modal-img-placeholder">${EMOJIS[p.categoria]||'&#x1F374;'}</span>`;
+  }
+  document.getElementById('modal-bg').style.display = 'flex';
+}
+function cerrarModal() { document.getElementById('modal-bg').style.display = 'none'; }
+function handleImgUpload(inp) {
+  const f = inp.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = e => { modalImg = e.target.result; document.getElementById('modal-img-prev').innerHTML = `<img src="${modalImg}" alt="preview">`; };
+  r.readAsDataURL(f);
+}
+function prevUrl(url) {
+  if (!url) { document.getElementById('modal-img-prev').innerHTML = `<span class="modal-img-placeholder">${EMOJIS[mgCat]||'&#x1F374;'}</span>`; return; }
+  modalImg = url;
+  document.getElementById('modal-img-prev').innerHTML = `<img src="${url}" alt="preview" onerror="this.parentElement.innerHTML='<span style=\\'font-size:12px;color:#f09595\\'>URL invalida</span>'">`;
+}
+
+async function guardarPlato() {
+  const nombre = document.getElementById('modal-name').value.trim();
+  const precio = parseFloat(document.getElementById('modal-price').value) || 0;
+  const descripcion = document.getElementById('modal-desc').value.trim();
+  const activo = document.getElementById('modal-activo').checked;
+  const categoria = document.getElementById('modal-cat').value;
+  if (!nombre || !precio) { toast('Completa nombre y precio', 'err'); return; }
+  const body = {nombre, precio, descripcion, activo, categoria, imagenUrl: modalImg || null};
+  try {
+    if (editingId === null) {
+      await api('/productos', 'POST', body);
+      toast(nombre + ' agregado al menu');
+    } else {
+      await api('/productos/' + editingId, 'PUT', body);
+      toast(nombre + ' actualizado');
+    }
+    cerrarModal();
+    cargarMenu();
+  } catch(e) { toast('Error al guardar producto', 'err'); }
+}
+
+// ===================== USUARIOS =====================
+async function cargarUsuarios() {
+  document.getElementById('usuarios-grid').innerHTML = '<div class="loading">Cargando usuarios...</div>';
+  try {
+    const users = await api('/usuarios');
+    const rolClass = {ADMIN:'ra', CAJERO:'rc', COCINA:'rco'};
+    document.getElementById('usuarios-grid').innerHTML = users.map(u => {
+      const ini = u.nombre.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+      return `<div class="uc">
+        <div class="ua ${rolClass[u.rol]||'ra'}">${ini}</div>
+        <div><div class="uname">${u.nombre}</div><div class="uemail">${u.email}</div><span class="urb ${rolClass[u.rol]||'ra'}">${u.rol}</span></div>
+      </div>`;
+    }).join('');
+  } catch(e) { document.getElementById('usuarios-grid').innerHTML = '<div class="empty" style="color:var(--RD)">Error al cargar usuarios</div>'; }
+}
+</script>
