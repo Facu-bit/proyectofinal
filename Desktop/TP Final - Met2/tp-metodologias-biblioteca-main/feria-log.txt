@@ -1,6 +1,0 @@
-2026-05-29T13:21:33.578768800 [REGISTRO] Emprendedor registrado: Ana con 3 productos
-2026-05-29T13:21:33.591771100 [VENTA] Venta registrada: Empanadas - Nuevo stock: 40
-2026-05-29T13:21:33.592767700 [VENTA] Venta registrada: Collar - Nuevo stock: 4
-2026-05-29T13:21:33.616771800 [COBRO] Cobrada venta V001 por $5000.0
-2026-05-29T13:21:33.617770800 [COBRO] Cobrada venta V002 por $2000.0
-2026-05-29T13:21:33.621773700 [COBRO] Total recaudado: $7000.0
